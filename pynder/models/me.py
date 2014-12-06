@@ -1,7 +1,6 @@
-from .. import constants
 import dateutil.parser
 from datetime import date
-
+from .. import constants
 
 class ProfileDescriptor(object):
  # this is a python descriptor that allows for dynamic updating of profile data
