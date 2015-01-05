@@ -1,6 +1,10 @@
 class PynderError(Exception):
- pass
+    pass
+
+
 class RequestError(PynderError):
- pass
+    pass
+
+
 class InitializationError(PynderError):
- pass
+    pass

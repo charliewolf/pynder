@@ -1,8 +1,8 @@
-from .. import constants
 import dateutil.parser
 from datetime import date
-from profile import Profile
-from message import Message
+from .. import constants
+from .me import Profile
+from .message import Message
 
 class User(object):
  def __init__(self,data,session):
