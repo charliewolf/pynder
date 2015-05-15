@@ -28,7 +28,7 @@ class TinderAPI(object):
             raise errors.InitializationError
 
         result = self._session.get(self._url(url)).json()
-        if ('status' in result) and result['status'] == 200:
+        if ('status' in result) and result['status'] != 200:
             raise errors.RequestError(result['status'])
         return result
 
