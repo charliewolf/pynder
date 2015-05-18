@@ -1,19 +1,16 @@
 import os
-
 from setuptools import setup, find_packages
 
 
 version = '0.0.3'
 
-
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as file:
     long_description = file.read()
-
 
 setup(
     name="pynder",
     version=version,
-    packages=find_packages(exclude=( 'examples')),
+    packages=find_packages(exclude=('examples')),
     install_requires=['requests', 'python-dateutil'],
     package_data={'': ['*.rst']},
     author="Charlie Wolf",
@@ -30,4 +27,3 @@ setup(
         "Topic :: Utilities",
     ],
 )
-

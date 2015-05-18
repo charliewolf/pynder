@@ -15,7 +15,8 @@ class TinderAPI(object):
         return constants.API_BASE + path
 
     def auth(self, facebook_id, facebook_token):
-        data = json.dumps({"facebook_id": str(facebook_id), "facebook_token": facebook_token})
+        data = json.dumps({"facebook_id": str(facebook_id),
+                          "facebook_token": facebook_token})
         result = self._session.post(self._url('/auth'), data=data).json()
         if 'token' not in result:
             raise errors.RequestError("Couldn't authenticate")
@@ -36,7 +37,8 @@ class TinderAPI(object):
         if not hasattr(self, '_token'):
             raise errors.InitializationError
 
-        result = self._session.post(self._url(url), data=json.dumps(data)).json()
+        result = self._session.post(self._url(url),
+                                    data=json.dumps(data)).json()
         if ('status' in result) and result['status'] == 200:
             raise errors.RequestError(result['status'])
         return result
@@ -63,7 +65,8 @@ class TinderAPI(object):
         return self._get("/pass/{}".format(user))
 
     def message(self, user, body):
-        return self._post("/user/matches/{}".format(user), {"message": str(body)})
+        return self._post("/user/matches/{}".format(user),
+                          {"message": str(body)})
 
     def report(self, user, cause=1):
         return self._post("/report/" + user, {"cause": cause})
