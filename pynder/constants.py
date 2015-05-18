@@ -1,8 +1,8 @@
 API_BASE = 'https://api.gotinder.com'
 
-USER_AGENT = 'Tinder Android Version 3.2.1'
+USER_AGENT = 'Tinder Android Version 4.1.3'
 
-HEADERS = {"User-Agent": USER_AGENT, "os-version": "19", "app-version": "759", "platform": "android", "Content-type": "application/json; charset=utf-8"}
+HEADERS = {"User-Agent": USER_AGENT, "os_version": "19", "app-version": "759", "platform": "android", "Content-type": "application/json; charset=utf-8"}
 
 GENDER_MAP = ["male", "female"]
 
