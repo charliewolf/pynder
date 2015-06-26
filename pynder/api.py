@@ -39,7 +39,7 @@ class TinderAPI(object):
 
         result = self._session.post(self._url(url),
                                     data=json.dumps(data)).json()
-        if ('status' in result) and result['status'] == 200:
+        if ('status' in result) and result['status'] != 200:
             raise errors.RequestError(result['status'])
         return result
 
