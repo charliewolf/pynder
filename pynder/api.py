@@ -1,5 +1,6 @@
 import requests
 import json
+import threading
 from . import constants
 from . import errors
 
@@ -28,20 +29,30 @@ class TinderAPI(object):
         if not hasattr(self, '_token'):
             raise errors.InitializationError
 
-        result = self._session.get(self._url(url)).json()
-        if ('status' in result) and result['status'] != 200:
-            raise errors.RequestError(result['status'])
-        return result
+        result = self._session.get(self._url(url))
+        if result.status_code == 429:
+            blocker = threading.Event()
+            blocker.wait(0.01)
+            return self._get(url)
+
+        if result.status_code != 200:
+            raise errors.RequestError(result.status_code)
+        return result.json()
 
     def _post(self, url, data={}):
         if not hasattr(self, '_token'):
             raise errors.InitializationError
 
         result = self._session.post(self._url(url),
-                                    data=json.dumps(data)).json()
-        if ('status' in result) and result['status'] != 200:
-            raise errors.RequestError(result['status'])
-        return result
+                                    data=json.dumps(data))
+        if result.status_code == 429:
+            blocker = threading.Event()
+            blocker.wait(0.01)
+            return self._get(url)
+
+        if result.status_code != 200:
+            raise errors.RequestError(result.status_code)
+        return result.json()
 
     def updates(self):
         return self._post("/updates")
