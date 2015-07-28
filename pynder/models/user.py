@@ -38,7 +38,7 @@ class Hopeful(User):
         return self._session._api.like(self.id)['match']
 
     def dislike(self):
-        return self._session._api.dislike(self.id)['match']
+        return self._session._api.dislike(self.id)
 
 
 class Match(User):
