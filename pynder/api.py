@@ -25,34 +25,23 @@ class TinderAPI(object):
         self._session.headers.update({"X-Auth-Token": str(result['token'])})
         return result
 
-    def _get(self, url):
+    def _request(self, method, url, data={}):
         if not hasattr(self, '_token'):
             raise errors.InitializationError
-
-        result = self._session.get(self._url(url))
-        if result.status_code == 429:
+        result = self._session.request(method, self._url(url), data=json.dumps(data))
+        while result.status_code == 429:
             blocker = threading.Event()
             blocker.wait(0.01)
-            return self._get(url)
-
+            result = self._session.request(method, self._url(url), data=data)
         if result.status_code != 200:
             raise errors.RequestError(result.status_code)
         return result.json()
+
+    def _get(self, url):
+        return self._request("get", url)
 
     def _post(self, url, data={}):
-        if not hasattr(self, '_token'):
-            raise errors.InitializationError
-
-        result = self._session.post(self._url(url),
-                                    data=json.dumps(data))
-        if result.status_code == 429:
-            blocker = threading.Event()
-            blocker.wait(0.01)
-            return self._get(url)
-
-        if result.status_code != 200:
-            raise errors.RequestError(result.status_code)
-        return result.json()
+        return self._request("post", url, data=data)
 
     def updates(self):
         return self._post("/updates")
