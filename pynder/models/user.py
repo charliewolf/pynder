@@ -9,7 +9,7 @@ class User(object):
         self.id = data['_id']
         try:
             self.distance = data['distance_mi']
-        except KeyError:
+        except KeyError:  # FIXME - take unit into account
             self.distance = data['distance_km']
         self.common_friends = data['common_friends']
         self.common_likes = data['common_likes']
