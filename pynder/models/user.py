@@ -6,23 +6,27 @@ from .message import Message
 
 class User(object):
     def __init__(self, data, session):
-        self.id = data['_id']
-        try:
-            self.distance = data['distance_mi']
-        except KeyError:  # FIXME - take unit into account
-            self.distance = data['distance_km']
-        self.common_friends = data['common_friends']
-        self.common_likes = data['common_likes']
-        self.bio = data['bio']
         self._session = session
+        self._data = data
+        self.id = data['_id']
+
+        SIMPLE_FIELDS = "name bio birth_date common_friends common_likes ping_time".split(" ")
+        for f in SIMPLE_FIELDS:
+            setattr(self, f, data[f])
+
         self.gender = constants.GENDER_MAP[int(data['gender'])]
-        self.birth_date = data['birth_date']
-        self.photos = map(lambda photo: str(photo['url']), data['photos'])
-        self.ping_time = data['ping_time']
-        self.name = data['name']
-        today = date.today()
+        self.photos = [p['url'] for p in data['photos']]
         self.birth_date = dateutil.parser.parse(self.birth_date)
-        self.age = (today.year - self.birth_date.year -
+
+    @property
+    def distance_km(self):
+        assert "distance_mi" in self._data or "distance_km" in self._data
+        return self._data.get('distance_km', self._data['distance_mi'] * 1.60934)
+
+    @property
+    def age(self):
+        today = date.today()
+        return (today.year - self.birth_date.year -
                     ((today.month, today.day) <
                      (self.birth_date.month, self.birth_date.day)))
 
@@ -45,12 +49,12 @@ class Match(object):
     def __init__(self, match, _session):
         self._session = _session
         self.id = match["_id"]
-        self.messages = [Message(m, user=self) for m in match['messages']]
-        self.user = None
+        self.user, self.messages = None, []
         if 'person' in match:
             user_data = _session._api.user_info(match['person']['_id'])['results']
             user_data['_id'] = match['person']['_id']
             self.user = User(user_data, _session)
+            self.messages = [Message(m, user=self.user) for m in match['messages']]
 
     @property
     def name(self):
