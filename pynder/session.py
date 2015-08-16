@@ -11,12 +11,10 @@ class Session(object):
         self.profile = models.Profile(self._api.profile(), self)
 
     def nearby_users(self):
-        return map(lambda user: models.Hopeful(user, self),
-                   self._api.recs()['results'])
+        return [models.Hopeful(u, self) for u in self._api.recs()['results']]
 
     def update_location(self, latitude, longitude):
         return self._api.ping(latitude, longitude)
 
     def matches(self):
-        return map(lambda match: models.Match(match, self),
-                   self._api.matches())
+        return [models.Match(m, self) for m in self._api.matches()]

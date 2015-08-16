@@ -4,11 +4,9 @@ import dateutil.parser
 class Message(object):
 
     def __init__(self, data, user=None):
-        if isinstance(data, str):
-            self.body = data
-        else:
-            self._data = data
-            self.body = data['message']
+        self._data = data
+        self.sent = dateutil.parser.parse(data['sent_date'])
+        self.body = data['message']
         if user:
             if data['from'] == user.id:
                 self.sender = user
@@ -18,7 +16,6 @@ class Message(object):
                 self.sender = user._session.profile
             if data['to'] == user._session.profile.id:
                 self.to = user._session.profile
-                self.sent = dateutil.parser.parse(data['sent_date'])
 
     def __repr__(self):
         return self.body
