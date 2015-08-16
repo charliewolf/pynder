@@ -41,13 +41,20 @@ class Hopeful(User):
         return self._session._api.dislike(self.id)
 
 
-class Match(User):
+class Match(object):
     def __init__(self, match, _session):
-        user_data = _session._api.user_info(match['person']['_id'])['results']
-        user_data['_id'] = match['person']['_id']
-        super(Match, self).__init__(user_data, _session)
-        self.messages = map(lambda message: Message(message, user=self),
-                            match['messages'])
+        self._session = _session
+        self.id = match["_id"]
+        self.messages = [Message(m, user=self) for m in match['messages']]
+        self.user = None
+        if 'person' in match:
+            user_data = _session._api.user_info(match['person']['_id'])['results']
+            user_data['_id'] = match['person']['_id']
+            self.user = User(user_data, _session)
+
+    @property
+    def name(self):
+        return "Unnamed match" if self.user is None else self.user.name
 
     def message(self, body):
         return self._session._api.message(self.id, body)['_id']
