@@ -12,7 +12,7 @@ FB_TOKEN = FILL_THIS_IN
 
 def get_match(matches, name):
     for m in matches:
-        if m.name == name:
+        if m.user.name == name:
             return m
     raise LookupError("Match '{n}' could not be found".format(n=name))
 
