@@ -34,10 +34,8 @@ if __name__ == "__main__":
     args = ap.parse_args()
 
     s = Session(ID, FB_TOKEN)
-    match = get_match(s.matches(), args.name)
 
     matches = [m for m in s.matches() if m.user is not None and m.user.name == args.name]
-
     match =  select_interactively(matches, args.name)
 
     output_filename = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_") + args.name + ".csv"
