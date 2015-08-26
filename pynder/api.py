@@ -7,10 +7,11 @@ from . import errors
 
 class TinderAPI(object):
 
-    def __init__(self):
+    def __init__(self, proxies=None):
         self._session = requests.Session()
         self._session.headers.update(constants.HEADERS)
         self._token = None
+        self._proxies = proxies
 
     def _url(self, path):
         return constants.API_BASE + path
@@ -18,7 +19,7 @@ class TinderAPI(object):
     def auth(self, facebook_id, facebook_token):
         data = json.dumps({"facebook_id": str(facebook_id),
                           "facebook_token": facebook_token})
-        result = self._session.post(self._url('/auth'), data=data).json()
+        result = self._session.post(self._url('/auth'), data=data, proxies=self._proxies).json()
         if 'token' not in result:
             raise errors.RequestError("Couldn't authenticate")
         self._token = result['token']
@@ -28,11 +29,11 @@ class TinderAPI(object):
     def _request(self, method, url, data={}):
         if not hasattr(self, '_token'):
             raise errors.InitializationError
-        result = self._session.request(method, self._url(url), data=json.dumps(data))
+        result = self._session.request(method, self._url(url), data=json.dumps(data), proxies=self._proxies)
         while result.status_code == 429:
             blocker = threading.Event()
             blocker.wait(0.01)
-            result = self._session.request(method, self._url(url), data=data)
+            result = self._session.request(method, self._url(url), data=data, proxies=self._proxies)
         if result.status_code != 200:
             raise errors.RequestError(result.status_code)
         return result.json()
