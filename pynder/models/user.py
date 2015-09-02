@@ -30,8 +30,14 @@ class User(object):
                     ((today.month, today.day) <
                      (self.birth_date.month, self.birth_date.day)))
 
+    def __unicode__(self):
+        return u"{n} ({a})".format(n=self.name, a=self.age)
+
+    def __str__(self):
+        return unicode(self).encode('utf-8')
+
     def __repr__(self):
-        return self.name
+        return repr(self.name)
 
     def report(self, cause):
         return self._session._api.report(self.id, cause)
