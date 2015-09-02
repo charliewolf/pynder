@@ -21,7 +21,7 @@ class Message(object):
         return self.body
 
     def __str__(self):
-        return unicode(self.body).encode('utf8')
+        return unicode(self).encode("utf8")
 
     def __repr__(self):
         return repr(self.body)
