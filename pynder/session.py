@@ -18,3 +18,8 @@ class Session(object):
 
     def matches(self):
         return [models.Match(m, self) for m in self._api.matches()]
+
+    @property
+    def likes_remaining(self):
+        meta_dct = self._api.meta()
+        return meta_dct['rating']['likes_remaining']

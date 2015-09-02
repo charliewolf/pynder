@@ -17,8 +17,11 @@ class Message(object):
             if data['to'] == user._session.profile.id:
                 self.to = user._session.profile
 
+    def __unicode__(self):
+        return self.body
+
     def __str__(self):
-        return self.body.encode("utf8")
+        return unicode(self).encode("utf8")
 
     def __repr__(self):
         return repr(self.body)

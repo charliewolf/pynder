@@ -47,6 +47,9 @@ class TinderAPI(object):
     def updates(self):
         return self._post("/updates")
 
+    def meta(self):
+        return self._get("/meta")
+
     def recs(self):
         return self._get("/user/recs")
 
