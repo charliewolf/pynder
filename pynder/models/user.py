@@ -65,5 +65,8 @@ class Match(object):
     def message(self, body):
         return self._session._api.message(self.id, body)['_id']
 
+    def delete(self):
+        return self._session._api._request('DELETE', '/user/matches/' + self.id)
+
     def __repr__(self):
         return "<Unnamed match>" if self.user is None else repr(self.user)
