@@ -33,4 +33,6 @@ You may run `user.like()` or `user.dislike()` on that user.
 
 For your list of matches, they will have the same attributes as above except you can't dislike or like them. You can, however, see any messages exchanged (`match.messages`)   or send them a message yourself (`match.message("Eyyyy gurl")`).
 
+Notes on likes_remaining: If you have Tinder Plus this will remain static at 100.
+
 Please let me know if you have any questions or bug reports.
