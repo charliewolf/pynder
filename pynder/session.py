@@ -1,3 +1,6 @@
+from time import time
+from datetime import timedelta
+
 from . import api
 from . import models
 
@@ -23,3 +26,13 @@ class Session(object):
     def likes_remaining(self):
         meta_dct = self._api.meta()
         return meta_dct['rating']['likes_remaining']
+
+    @property
+    def can_like_in(self):
+        '''
+        Return the number of seconds before being allowed to issue likes
+        '''
+        meta_dct = self._api.meta()
+        now = int(time())
+        limited_until = meta_dct['rating'].get('rate_limited_until', now)  # Milliseconds
+        return limited_until / 1000 - now
