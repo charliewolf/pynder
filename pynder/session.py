@@ -14,7 +14,9 @@ class Session(object):
         self.profile = models.Profile(self._api.profile(), self)
 
     def nearby_users(self):
-        return [models.Hopeful(u, self) for u in self._api.recs()['results']]
+        response = self._api.recs()
+        users = response['results'] if 'results' in response else []
+        return [models.Hopeful(u, self) for u in users]
 
     def update_location(self, latitude, longitude):
         return self._api.ping(latitude, longitude)
