@@ -7,11 +7,13 @@ from . import errors
 
 class TinderAPI(object):
 
-    def __init__(self, proxies=None):
+    def __init__(self, XAuthToken=None, proxies=None):
         self._session = requests.Session()
         self._session.headers.update(constants.HEADERS)
-        self._token = None
+        self._token = XAuthToken
         self._proxies = proxies
+        if XAuthToken is not None:
+            self._session.headers.update({"X-Auth-Token": str(XAuthToken)})
 
     def _url(self, path):
         return constants.API_BASE + path
