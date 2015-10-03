@@ -23,6 +23,7 @@ class TinderAPI(object):
                           "facebook_token": facebook_token})
         result = self._session.post(self._url('/auth'), data=data, proxies=self._proxies).json()
         if 'token' not in result:
+            print result
             raise errors.RequestError("Couldn't authenticate")
         self._token = result['token']
         self._session.headers.update({"X-Auth-Token": str(result['token'])})

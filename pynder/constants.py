@@ -1,12 +1,12 @@
 API_BASE = 'https://api.gotinder.com'
 
-USER_AGENT = 'Tinder Android Version 4.1.3'
+USER_AGENT = 'Tinder/4.6.1 (iPhone; iOS 9.0.1; Scale/2.00)'
 
 HEADERS = {
     "User-Agent": USER_AGENT,
-    "os_version": "19",
-    "app-version": "759",
-    "platform": "android",
+    "os_version": "90000000001",
+    "app-version": "371",
+    "platform": "ios",
     "Content-type": "application/json; charset=utf-8"
 }
 
