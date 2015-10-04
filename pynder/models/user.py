@@ -10,15 +10,24 @@ class User(object):
         self._data = data
         self.id = data['_id']
 
-        SIMPLE_FIELDS = "name bio gender birth_date common_interests common_connections ping_time".split(" ")
+        SIMPLE_FIELDS = "name bio birth_date ping_time".split(" ")
         for f in SIMPLE_FIELDS:
             setattr(self, f, data[f])
 
-        self.gender = constants.GENDER_MAP[int(data['gender'])]
         self.photos_obj = [p for p in data['photos']]
         self.birth_date = dateutil.parser.parse(self.birth_date)
-        self.common_interests = [p['name'] for p in data['common_interests']]
-        self.common_connections = [p['name'] for p in data['common_connections']]
+
+    @property
+    def gender(self):
+        return constants.GENDER_MAP[int(self._data['gender'])]
+
+    @property
+    def common_interests(self):
+        return [p for p in self._data['common_interests']]
+
+    @property
+    def common_connections(self):
+        return [p for p in self._data['common_connections']]
 
     @property
     def thumbnails(self):
@@ -68,6 +77,7 @@ class User(object):
                     if p.get("width", 0) == int(width):
                         photos_list.append(p.get("url", None))
         return photos_list
+
 class Hopeful(User):
     def like(self):
         return self._session._api.like(self.id)['match']

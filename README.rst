@@ -21,13 +21,14 @@ These have the following properties: ::
   user.bio # their biography
   user.name # their name
   user.photo # a list of photo URLs
+  user.thumbnail #a list of thumbnails of photo URLS
   user.age # their age
   user.birth_date # their birth_date
   user.ping_time # last online
   user.distance # distane from you
-  user.common_friends # friends in common
-  user.common_likes # likes in common
-
+  user.common_connections # friends in common
+  user.common_interests # likes in common - returns a list of {'name':NAME, 'id':ID}
+  user.get_photos(width=WIDTH) # a list of photo URLS with either of these widths ["84","172","320","640"]
 
 You may run `user.like()` or `user.dislike()` on that user.
 
