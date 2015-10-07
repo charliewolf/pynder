@@ -18,6 +18,17 @@ class User(object):
         self.birth_date = dateutil.parser.parse(self.birth_date)
 
     @property
+    def instagram_username(self):
+        if self._data.get("instagram", False):
+            return self._data['instagram']['username']
+
+    @property
+    def instagram_photos(self):
+        if self._data.get("instagram", False):
+            return [p for p in self._data['instagram']['photos']]
+
+
+    @property
     def gender(self):
         return constants.GENDER_MAP[int(self._data['gender'])]
 
