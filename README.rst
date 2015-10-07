@@ -29,6 +29,8 @@ These have the following properties: ::
   user.common_connections # friends in common
   user.common_interests # likes in common - returns a list of {'name':NAME, 'id':ID}
   user.get_photos(width=WIDTH) # a list of photo URLS with either of these widths ["84","172","320","640"]
+	user.instagram_username # instagram username
+	user.instagram_photos # a list of instagram photos with these fields for each photo: 'image','link','thumbnail'
 
 You may run `user.like()` or `user.dislike()` on that user.
 
