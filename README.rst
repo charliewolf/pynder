@@ -25,7 +25,7 @@ These have the following properties: ::
   user.age # their age
   user.birth_date # their birth_date
   user.ping_time # last online
-  user.distance # distane from you
+  user.distance_km # distane from you
   user.common_connections # friends in common
   user.common_interests # likes in common - returns a list of {'name':NAME, 'id':ID}
   user.get_photos(width=WIDTH) # a list of photo URLS with either of these widths ["84","172","320","640"]
