@@ -82,3 +82,6 @@ class TinderAPI(object):
 
     def ping(self, lat, lon):
         return self._post("/user/ping", {"lat": lat, "lon": lon})
+
+    def superlike(self, user):
+        return self._post("/like/{}/super".format(user))
