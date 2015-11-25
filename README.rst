@@ -32,7 +32,7 @@ These have the following properties: ::
 	user.instagram_username # instagram username
 	user.instagram_photos # a list of instagram photos with these fields for each photo: 'image','link','thumbnail'
 
-You may run `user.like()` or `user.dislike()` on that user.
+You may run `user.like()`, `user.superlike()` or `user.dislike()` on that user.
 
 For your list of matches, they will have the same attributes as above except you can't dislike or like them. You can, however, see any messages exchanged (`match.messages`)   or send them a message yourself (`match.message("Eyyyy gurl")`).
 
