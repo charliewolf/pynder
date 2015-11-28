@@ -89,6 +89,14 @@ class User(object):
                         photos_list.append(p.get("url", None))
         return photos_list
 
+    def jobs(self):
+        """Returns a list of the user jobs."""
+        return self._data.get("jobs")
+
+    def schools(self):
+        """Returns a list of the school names of this user."""
+        return [s["name"] for s in self._data.get("schools")]
+
 class Hopeful(User):
     def like(self):
         return self._session._api.like(self.id)['match']
