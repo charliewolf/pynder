@@ -89,6 +89,24 @@ class User(object):
                         photos_list.append(p.get("url", None))
         return photos_list
 
+    def company(self):
+        """Returns the name of the company this user works for, or None."""
+        jobs = self._data.get("job")
+        if 'company' not in jobs:
+            return None
+        return jobs['company']
+
+    def job_title(self):
+        """Returns the title of the user in his company, or None."""
+        jobs = self._data.get("job")
+        if 'title' not in jobs:
+            return None
+        return jobs['title']
+
+    def schools(self):
+        """Returns a list of the school names of this user."""
+        return [s["name"] for s in self._data.get("schools")]
+
 class Hopeful(User):
     def like(self):
         return self._session._api.like(self.id)['match']
