@@ -10,12 +10,13 @@ class User(object):
         self._data = data
         self.id = data['_id']
 
-        SIMPLE_FIELDS = "name bio birth_date ping_time".split(" ")
+        SIMPLE_FIELDS = ("name", "bio", "birth_date", "ping_time", "jobs")
         for f in SIMPLE_FIELDS:
             setattr(self, f, data[f])
 
         self.photos_obj = [p for p in data['photos']]
         self.birth_date = dateutil.parser.parse(self.birth_date)
+        self.schools = [school["name"] for school in data['schools']]
 
     @property
     def instagram_username(self):
