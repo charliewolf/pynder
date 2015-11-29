@@ -93,6 +93,9 @@ class Hopeful(User):
     def like(self):
         return self._session._api.like(self.id)['match']
 
+    def superlike(self):
+        return self._session._api.superlike(self.id)['match']
+
     def dislike(self):
         return self._session._api.dislike(self.id)
 
