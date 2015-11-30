@@ -31,7 +31,7 @@ These have the following properties: ::
   user.get_photos(width=WIDTH) # a list of photo URLS with either of these widths ["84","172","320","640"]
   user.instagram_username # instagram username
   user.instagram_photos # a list of instagram photos with these fields for each photo: 'image','link','thumbnail'
-  user.schhols # list of schools
+  user.schools # list of schools
   user.jobs # list of jobs
 
 You may run `user.like()`, `user.superlike()` or `user.dislike()` on that user.
