@@ -5,6 +5,14 @@ This is a python client for the `Tinder <http://gotinder.com>`_ API.
 
 Please see the examples for more information on how to use.
 
+Install
+=======
+
+- pip + github: pip install git+https://github.com/charliewolf/pynder.git
+
+Usage
+=====
+
 You start by instantiating a pynder.Session object with a Facebook ID and Facebook access token.
 
 Once your session is initialized you have the following methods / attributes: ::
