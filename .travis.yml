@@ -1,0 +1,13 @@
+
+language: python
+python:
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "pypy"
+# command to install dependencies
+install:
+  - cp pynder/tests/test.ini.sample pynder/tests/test.ini
+  - pip install -e .
+  - pip install nose vcrpy
+script: nosetests
