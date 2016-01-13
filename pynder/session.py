@@ -12,7 +12,7 @@ class Session(object):
         # perform authentication
         if XAuthToken is None:
             self._api.auth(facebook_id, facebook_token)
-        self.profile = models.Profile(self._api.profile(), self)
+        self.profile = models.Profile(self._api.profile(), self._api)
 
     def nearby_users(self):
         response = self._api.recs()

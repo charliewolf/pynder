@@ -20,10 +20,8 @@ class ProfileDescriptor(object):
         for key in constants.UPDATABLE_FIELDS:
             profile[key] = getattr(instance, key)
         profile['gender'] = constants.GENDER_MAP_REVERSE[profile['gender']]
-        profile['interested_in'] = map(
-            lambda x: constants.GENDER_MAP_REVERSE[x],
-            profile['interested_in']
-            )
+        profile['interested_in'] = [constants.GENDER_MAP_REVERSE[x] for x in
+                                    profile['interested_in']]
         profile[self.id] = value
         instance.__init__(instance._api.update_profile(profile), instance._api)
         self.value = value

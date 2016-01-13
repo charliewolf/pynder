@@ -90,7 +90,7 @@ class User(object):
             else:
                 sizes = ["84","172","320","640"]
                 if width not in sizes:
-                    print "Only support these widths: %s" %sizes
+                    print("Only support these widths: %s" % sizes)
                     return None
                 for p in photo.get("processedFiles", []):
                     if p.get("width", 0) == int(width):
