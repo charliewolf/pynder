@@ -25,6 +25,12 @@ class TinderAPI(object):
         if 'token' not in result:
             raise errors.RequestError("Couldn't authenticate")
         self._token = result['token']
+        GLOBAL_HEADERS = {
+            'app_version': '4',
+            'platform': 'ios',
+            'user-agent': 'Tinder/4.0.9 (iPhone; iOS 8.1.1; Scale/2.00)',
+        }
+        self._session.headers.update(GLOBAL_HEADERS)
         self._session.headers.update({"X-Auth-Token": str(result['token'])})
         return result
 
@@ -37,7 +43,9 @@ class TinderAPI(object):
             blocker.wait(0.01)
             result = self._session.request(method, self._url(url), data=data, proxies=self._proxies)
         if result.status_code != 200:
+            print(result.text)
             raise errors.RequestError(result.status_code)
+        print(result.text)
         return result.json()
 
     def _get(self, url):
@@ -53,7 +61,7 @@ class TinderAPI(object):
         return self._get("/meta")
 
     def recs(self):
-        return self._get("/user/recs")
+        return self._post("/user/recs", data={"limit": 40})
 
     def matches(self):
         return self.updates()['matches']

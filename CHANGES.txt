@@ -1,0 +1,11 @@
+CHANGES
+=======
+
+0.0.10 (unreleased)
+-------------------
+
+- Tests
+
+- Fixed profile.age_filter_max, profile.interested_in
+
+- Python3 compat.py
