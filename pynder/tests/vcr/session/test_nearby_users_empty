@@ -1,0 +1,85 @@
+interactions:
+- request:
+    body: !!binary |
+      eyJmYWNlYm9va190b2tlbiI6ICJDQUFHbTBQWDRaQ3BzQkFDWkJnQlhqNld3WTF6aU5SekljTzla
+      Qmt5RHI5dDNhQ1A4NTlqdXN5emI4U2pSMG4xS3dBNHQxMGVzUmE3Tkx3RHNuTDhqNzZrYXF3UGIx
+      bXF2SnVFZTh3OG9GaVpCRU0wN1pBMGhsanRuMXlHOVpBTUt6SWduZkhDMTBnYUZTeEFIYlpBWkFP
+      VjB1ejd1Z0ZRNkZ1UjFqeUN1Q2R4ZVk4b1FvQVpBMjRMaVVyTUl3RHBOeGVaQnJWT3hnb1hoR2xk
+      QVpEWkQiLCAiZmFjZWJvb2tfaWQiOiAiMTAwMDExMDk4NzE4NTY5In09
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['269']
+      Content-type: [application/json; charset=utf-8]
+      User-Agent: [Tinder/4.6.1 (iPhone; iOS 9.0.1; Scale/2.00)]
+      app-version: ['371']
+      os_version: ['90000000001']
+      platform: [android]
+    method: POST
+    uri: https://api.gotinder.com/auth
+  response:
+    body: {string: '{"token":"c0015074-84d0-4541-ba24-98f4a7aaf621","user":{"_id":"56966cca820956096e1574e4","active_time":"2016-01-14T09:32:43.352Z","create_date":"2016-01-13T15:27:06.625Z","age_filter_max":34,"age_filter_min":18,"api_token":"c0015074-84d0-4541-ba24-98f4a7aaf621","bio":"","birth_date":"1981-01-17T00:00:00.000Z","connection_count":0,"distance_filter":50,"full_name":"REMOVED_NAME
+        Derlant","groups":["plus_subscription_1499"],"gender":0,"gender_filter":1,"interests":[],"name":"REMOVED_NAME","ping_time":"2016-01-14T09:31:56.209Z","discoverable":true,"photos":[{"id":"unknown","main":true,"crop":"source","fileName":"unknown.jpg","fbId":"unknown","extension":"jpg","processedFiles":[{"url":"http://images.gotinder.com/0001unknown/640x640_pct_0_0_100_100_unknown.jpg","height":640,"width":640},{"url":"http://images.gotinder.com/0001unknown/320x320_pct_0_0_100_100_unknown.jpg","height":320,"width":320},{"url":"http://images.gotinder.com/0001unknown/172x172_pct_0_0_100_100_unknown.jpg","height":172,"width":172},{"url":"http://images.gotinder.com/0001unknown/84x84_pct_0_0_100_100_unknown.jpg","height":84,"width":84}],"url":"http://images.gotinder.com/0001unknown/unknown.jpg"}],"jobs":[],"schools":[],"banned":true,"purchases":[]},"versions":{"active_text":"0.0.0","age_filter":"2.1.0","matchmaker":"2.1.0","trending":"10.0.0","trending_active_text":"10.0.0"},"globals":{"friends":true,"invite_type":"client","recs_interval":20000,"updates_interval":2000,"recs_size":40,"matchmaker_default_message":"I
+        want you to meet someone. I introduced you on Tinder www.gotinder.com/app","share_default_text":"<style>body{color:#fff;text-align:center;font-family:HelveticaNeue;text-shadow:0
+        1px 1px rgba(0,0,0,0.63);}h1{font-size:24px;line-height:24px;margin:0;}p{font-size:16px;margin:8px;}</style><h1>Get
+        a Boost</h1><p><strong>Invite friends</strong> to show up <br/><strong>even
+        higher</strong> in recommendations.</p>","boost_decay":180,"boost_up":7,"boost_down":8,"sparks":false,"kontagent":false,"sparks_enabled":false,"kontagent_enabled":false,"mqtt":false,"tinder_sparks":true,"moments_interval":30000,"fetch_connections":true,"plus":true}}'}
+    headers:
+      Connection: [keep-alive]
+      Content-Length: ['2129']
+      Content-Type: [application/json; charset=utf-8]
+      Date: ['Thu, 14 Jan 2016 09:32:43 GMT']
+      ETag: ['"1251162632"']
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      e30=
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['2']
+      Content-type: [application/json; charset=utf-8]
+      User-Agent: [Tinder/4.6.1 (iPhone; iOS 9.0.1; Scale/2.00)]
+      X-Auth-Token: [c0015074-84d0-4541-ba24-98f4a7aaf621]
+      app-version: ['371']
+      os_version: ['90000000001']
+      platform: [android]
+    method: GET
+    uri: https://api.gotinder.com/profile
+  response:
+    body: {string:
+    '{"_id":"REMOVED_ID","age_filter_max":34,"age_filter_min":18,"banned":true,"bio":"","birth_date":"1981-01-17T00:00:00.000Z","create_date":"2016-01-13T15:27:06.625Z","discoverable":true,"distance_filter":50,"facebook_id":"REMOVED_ID","gender":0,"gender_filter":1,"interested_in":[1],"jobs":[],"location":null,"name":"REMOVED_NAME","photos":[{"id":"unknown","main":true,"crop":"source","fileName":"unknown.jpg","fbId":"unknown","extension":"jpg","processedFiles":[{"url":"http://images.gotinder.com/0001unknown/640x640_pct_0_0_100_100_unknown.jpg","height":640,"width":640},{"url":"http://images.gotinder.com/0001unknown/320x320_pct_0_0_100_100_unknown.jpg","height":320,"width":320},{"url":"http://images.gotinder.com/0001unknown/172x172_pct_0_0_100_100_unknown.jpg","height":172,"width":172},{"url":"http://images.gotinder.com/0001unknown/84x84_pct_0_0_100_100_unknown.jpg","height":84,"width":84}],"url":"http://images.gotinder.com/0001unknown/unknown.jpg"}],"ping_time":"2016-01-14T09:31:56.209Z","pos":{"lat":52.520645,"lon":13.409779,"at":1452698952254},"pos_info":{"city":{"name":"Berlin","bounds":{"ne":{"lat":52.65426900000017,"lng":13.73997799999978},"sw":{"lat":52.368530525453764,"lng":13.090418603713374}}},"country":{"name":"Germany","bounds":{"ne":{"lat":55.055443,"lng":15.041211},"sw":{"lat":47.270056,"lng":5.866778}},"cc":"DE"}},"schools":[]}'}
+    headers:
+      Connection: [keep-alive]
+      Content-Length: ['1372']
+      Content-Type: [application/json; charset=utf-8]
+      Date: ['Thu, 14 Jan 2016 09:32:43 GMT']
+      ETag: ['"57464929"']
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      eyJsaW1pdCI6IDEwfT0=
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['13']
+      Content-type: [application/json; charset=utf-8]
+      User-Agent: [Tinder/4.6.1 (iPhone; iOS 9.0.1; Scale/2.00)]
+      X-Auth-Token: [c0015074-84d0-4541-ba24-98f4a7aaf621]
+      app-version: ['371']
+      os_version: ['90000000001']
+      platform: [android]
+    method: POST
+    uri: https://api.gotinder.com/user/recs
+  response:
+    body: {string: '{"message":"recs exhausted"}'}
+    headers:
+      Connection: [keep-alive]
+      Content-Length: ['28']
+      Content-Type: [application/json; charset=utf-8]
+      Date: ['Thu, 14 Jan 2016 09:32:43 GMT']
+    status: {code: 200, message: OK}
+version: 1

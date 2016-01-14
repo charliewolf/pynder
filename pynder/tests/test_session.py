@@ -23,3 +23,10 @@ class TestSession(unittest.TestCase):
         auth = read_test_ini()
         session = pynder.Session(auth["facebook_id"], auth["facebook_token"])
         self.assertEqual(session.profile.gender, "male")
+
+    @my_vcr.use_cassette(filter_post_data_parameters=["facebook_id",
+                                                      "facebook_token"])
+    def test_nearby_users_empty(self):
+        auth = read_test_ini()
+        session = pynder.Session(auth["facebook_id"], auth["facebook_token"])
+        self.assertEqual(session.nearby_users(limit=10), [])

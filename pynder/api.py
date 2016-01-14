@@ -25,12 +25,6 @@ class TinderAPI(object):
         if 'token' not in result:
             raise errors.RequestError("Couldn't authenticate")
         self._token = result['token']
-        GLOBAL_HEADERS = {
-            'app_version': '4',
-            'platform': 'ios',
-            'user-agent': 'Tinder/4.0.9 (iPhone; iOS 8.1.1; Scale/2.00)',
-        }
-        self._session.headers.update(GLOBAL_HEADERS)
         self._session.headers.update({"X-Auth-Token": str(result['token'])})
         return result
 
@@ -60,8 +54,8 @@ class TinderAPI(object):
     def meta(self):
         return self._get("/meta")
 
-    def recs(self):
-        return self._post("/user/recs", data={"limit": 40})
+    def recs(self, limit=10):
+        return self._post("/user/recs", data={"limit": limit})
 
     def matches(self):
         return self.updates()['matches']
