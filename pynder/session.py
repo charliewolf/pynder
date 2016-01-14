@@ -14,8 +14,8 @@ class Session(object):
             self._api.auth(facebook_id, facebook_token)
         self.profile = models.Profile(self._api.profile(), self._api)
 
-    def nearby_users(self):
-        response = self._api.recs()
+    def nearby_users(self, limit=10):
+        response = self._api.recs(limit)
         users = response['results'] if 'results' in response else []
         return [models.Hopeful(u, self) for u in users]
 

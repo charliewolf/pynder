@@ -6,7 +6,7 @@ HEADERS = {
     "User-Agent": USER_AGENT,
     "os_version": "90000000001",
     "app-version": "371",
-    "platform": "ios",
+    "platform": "android",  # XXX with ios we run in an error
     "Content-type": "application/json; charset=utf-8"
 }
 
