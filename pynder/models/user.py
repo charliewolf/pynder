@@ -23,7 +23,7 @@ class User(object):
             self.jobs.extend(["%s @ %s" % (job["title"]["name"], job["company"]["name"]) for job in data['jobs'] if 'title' in job and 'company' in job])
             self.jobs.extend(["%s" % (job["company"]["name"],) for job in data['jobs'] if 'title' not in job])
             self.jobs.extend(["%s" % (job["title"]["name"],) for job in data['jobs'] if 'title' in job and 'company' not in job])
-        except ValueError:
+        except ValueError, KeyError:
             pass
     @property
     def instagram_username(self):
