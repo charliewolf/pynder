@@ -1,11 +1,11 @@
 import dateutil.parser
-from datetime import date
 from .. import constants
 
 
 class ProfileDescriptor(object):
     # this is a python descriptor that allows for
     # dynamic updating of profile data
+
     def __init__(self, id):
         self.id = id
 
@@ -41,6 +41,7 @@ class GenderDescriptor(ProfileDescriptor):
 
 class InterestedInDescriptor(ProfileDescriptor):
     # makes gender human readable
+
     def __get__(self, instance, owner):
         interested_in = super(InterestedInDescriptor, self).\
             __get__(instance, owner)
@@ -68,7 +69,6 @@ class Profile(object):
         self.photos = map(lambda photo: str(photo['url']), data['photos'])
         self.ping_time = data['ping_time']
         self.name = data['name']
-        today = date.today()
         self.create_date = dateutil.parser.parse(self.create_date)
         self._data = data
 

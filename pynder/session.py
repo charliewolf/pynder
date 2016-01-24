@@ -1,5 +1,4 @@
 from time import time
-from datetime import timedelta
 
 from . import api
 from . import models
@@ -37,5 +36,6 @@ class Session(object):
         '''
         meta_dct = self._api.meta()
         now = int(time())
-        limited_until = meta_dct['rating'].get('rate_limited_until', now)  # Milliseconds
+        limited_until = meta_dct['rating'].get(
+            'rate_limited_until', now)  # Milliseconds
         return limited_until / 1000 - now

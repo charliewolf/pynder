@@ -5,6 +5,7 @@ from .message import Message
 
 
 class User(object):
+
     def __init__(self, data, session):
         self._session = session
         self._data = data
@@ -20,11 +21,15 @@ class User(object):
         self.jobs = []
         try:
             self.schools.extend([school["name"] for school in data['schools']])
-            self.jobs.extend(["%s @ %s" % (job["title"]["name"], job["company"]["name"]) for job in data['jobs'] if 'title' in job and 'company' in job])
-            self.jobs.extend(["%s" % (job["company"]["name"],) for job in data['jobs'] if 'title' not in job and 'company' in job])
-            self.jobs.extend(["%s" % (job["title"]["name"],) for job in data['jobs'] if 'title' in job and 'company' not in job])
+            self.jobs.extend(["%s @ %s" % (job["title"]["name"], job["company"][
+                             "name"]) for job in data['jobs'] if 'title' in job and 'company' in job])
+            self.jobs.extend(["%s" % (job["company"]["name"],) for job in data[
+                             'jobs'] if 'title' not in job and 'company' in job])
+            self.jobs.extend(["%s" % (job["title"]["name"],) for job in data[
+                             'jobs'] if 'title' in job and 'company' not in job])
         except ValueError:
             pass
+
     @property
     def instagram_username(self):
         if self._data.get("instagram", False):
@@ -34,7 +39,6 @@ class User(object):
     def instagram_photos(self):
         if self._data.get("instagram", False):
             return [p for p in self._data['instagram']['photos']]
-
 
     @property
     def gender(self):
@@ -58,7 +62,7 @@ class User(object):
 
     @property
     def distance_km(self):
-        if self._data.get("distance_mi", False) or self._data.get("distance_km",False):
+        if self._data.get("distance_mi", False) or self._data.get("distance_km", False):
             return self._data.get('distance_km', self._data['distance_mi'] * 1.60934)
         else:
             return 0
@@ -67,8 +71,8 @@ class User(object):
     def age(self):
         today = date.today()
         return (today.year - self.birth_date.year -
-                    ((today.month, today.day) <
-                     (self.birth_date.month, self.birth_date.day)))
+                ((today.month, today.day) <
+                 (self.birth_date.month, self.birth_date.day)))
 
     def __unicode__(self):
         return u"{n} ({a})".format(n=self.name, a=self.age)
@@ -88,7 +92,7 @@ class User(object):
             if width is None:
                 photos_list.append(photo.get("url"))
             else:
-                sizes = ["84","172","320","640"]
+                sizes = ["84", "172", "320", "640"]
                 if width not in sizes:
                     print("Only support these widths: %s" % sizes)
                     return None
@@ -97,7 +101,9 @@ class User(object):
                         photos_list.append(p.get("url", None))
         return photos_list
 
+
 class Hopeful(User):
+
     def like(self):
         return self._session._api.like(self.id)['match']
 
@@ -109,15 +115,18 @@ class Hopeful(User):
 
 
 class Match(object):
+
     def __init__(self, match, _session):
         self._session = _session
         self.id = match["_id"]
         self.user, self.messages = None, []
         if 'person' in match:
-            user_data = _session._api.user_info(match['person']['_id'])['results']
+            user_data = _session._api.user_info(
+                match['person']['_id'])['results']
             user_data['_id'] = match['person']['_id']
             self.user = User(user_data, _session)
-            self.messages = [Message(m, user=self.user) for m in match['messages']]
+            self.messages = [Message(m, user=self.user)
+                             for m in match['messages']]
 
     def message(self, body):
         return self._session._api.message(self.id, body)['_id']

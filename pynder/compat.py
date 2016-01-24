@@ -6,7 +6,7 @@ PY2 = (ver[0] == 2)
 PY3 = (ver[0] == 3)
 
 if PY2:
-    import ConfigParser
+    import ConfigParser  # NOQA
 
-if PY3:
-    import configparser as ConfigParser
+elif PY3:
+    import configparser as ConfigParser  # NOQA

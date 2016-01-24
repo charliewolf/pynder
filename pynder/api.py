@@ -20,8 +20,9 @@ class TinderAPI(object):
 
     def auth(self, facebook_id, facebook_token):
         data = json.dumps({"facebook_id": str(facebook_id),
-                          "facebook_token": facebook_token})
-        result = self._session.post(self._url('/auth'), data=data, proxies=self._proxies).json()
+                           "facebook_token": facebook_token})
+        result = self._session.post(
+            self._url('/auth'), data=data, proxies=self._proxies).json()
         if 'token' not in result:
             raise errors.RequestError("Couldn't authenticate")
         self._token = result['token']
@@ -31,11 +32,13 @@ class TinderAPI(object):
     def _request(self, method, url, data={}):
         if not hasattr(self, '_token'):
             raise errors.InitializationError
-        result = self._session.request(method, self._url(url), data=json.dumps(data), proxies=self._proxies)
+        result = self._session.request(method, self._url(
+            url), data=json.dumps(data), proxies=self._proxies)
         while result.status_code == 429:
             blocker = threading.Event()
             blocker.wait(0.01)
-            result = self._session.request(method, self._url(url), data=data, proxies=self._proxies)
+            result = self._session.request(method, self._url(
+                url), data=data, proxies=self._proxies)
         if result.status_code != 200:
             print(result.text)
             raise errors.RequestError(result.status_code)
@@ -80,7 +83,7 @@ class TinderAPI(object):
         return self._post("/report/" + user, {"cause": cause})
 
     def user_info(self, user_id):
-        return self._get("/user/"+user_id)
+        return self._get("/user/" + user_id)
 
     def ping(self, lat, lon):
         return self._post("/user/ping", {"lat": lat, "lon": lon})
