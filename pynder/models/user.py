@@ -21,7 +21,7 @@ class User(object):
         try:
             self.schools.extend([school["name"] for school in data['schools']])
             self.jobs.extend(["%s @ %s" % (job["title"]["name"], job["company"]["name"]) for job in data['jobs'] if 'title' in job and 'company' in job])
-            self.jobs.extend(["%s" % (job["company"]["name"],) for job in data['jobs'] if 'title' not in job])
+            self.jobs.extend(["%s" % (job["company"]["name"],) for job in data['jobs'] if 'title' not in job and 'company' in job])
             self.jobs.extend(["%s" % (job["title"]["name"],) for job in data['jobs'] if 'title' in job and 'company' not in job])
         except ValueError:
             pass
