@@ -1,6 +1,6 @@
 import os
 
-from pynder.compat import ConfigParser
+from six.moves.configparser import ConfigParser
 
 
 FILE_DIR = os.path.dirname(__file__)

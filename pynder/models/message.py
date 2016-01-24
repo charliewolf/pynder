@@ -1,4 +1,5 @@
 import dateutil.parser
+from six import text_type
 
 
 class Message(object):
@@ -21,7 +22,7 @@ class Message(object):
         return self.body
 
     def __str__(self):
-        return unicode(self).encode("utf8")
+        return text_type(self).encode("utf8")
 
     def __repr__(self):
         return repr(self.body)

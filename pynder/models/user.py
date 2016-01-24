@@ -1,6 +1,7 @@
 import dateutil.parser
 from datetime import date
 from .. import constants
+from six import text_type
 from .message import Message
 
 
@@ -78,7 +79,7 @@ class User(object):
         return u"{n} ({a})".format(n=self.name, a=self.age)
 
     def __str__(self):
-        return unicode(self).encode('utf-8')
+        return text_type(self).encode('utf-8')
 
     def __repr__(self):
         return repr(self.name)

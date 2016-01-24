@@ -11,7 +11,7 @@ setup(
     name="pynder",
     version=version,
     packages=find_packages(exclude=('examples')),
-    install_requires=['requests', 'python-dateutil'],
+    install_requires=['requests', 'python-dateutil', 'six'],
     package_data={'': ['*.rst']},
     author="Charlie Wolf",
     author_email="charlie@wolf.is",
