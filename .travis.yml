@@ -9,5 +9,6 @@ python:
 install:
   - cp pynder/tests/test.ini.sample pynder/tests/test.ini
   - pip install -e .
-  - pip install nose vcrpy
+  - pip install nose vcrpy flake8
 script: nosetests
+before_script: flake8 pynder
