@@ -10,7 +10,7 @@ def read_test_ini(file_dir=FILE_DIR, section="FacebookAuth"):
     ini_file_path = os.path.join(file_dir, "test.ini")
     ret = {}
     if os.path.isfile(ini_file_path):
-        cp = ConfigParser.ConfigParser()
+        cp = ConfigParser()
         cp.read(ini_file_path)
         if section not in cp.sections():
             raise EnvironmentError(
