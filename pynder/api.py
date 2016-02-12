@@ -40,9 +40,7 @@ class TinderAPI(object):
             result = self._session.request(method, self._url(
                 url), data=data, proxies=self._proxies)
         if result.status_code != 200:
-            print(result.text)
             raise errors.RequestError(result.status_code)
-        print(result.text)
         return result.json()
 
     def _get(self, url):
