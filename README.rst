@@ -24,7 +24,7 @@ These have the following properties: ::
     user = users[0]
     user.bio # their biography
     user.name # their name
-    user.photo # a list of photo URLs
+    user.photos # a list of photo URLs
     user.thumbnail #a list of thumbnails of photo URLS
     user.age # their age
     user.birth_date # their birth_date
