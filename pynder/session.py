@@ -18,6 +18,9 @@ class Session(object):
         users = response['results'] if 'results' in response else []
         return [models.Hopeful(u, self) for u in users]
 
+    def update_profile(self, profile):
+        return self._api.update_profile(profile)
+
     def update_location(self, latitude, longitude):
         return self._api.ping(latitude, longitude)
 
