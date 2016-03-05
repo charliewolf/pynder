@@ -16,7 +16,11 @@ class Session(object):
     def nearby_users(self, limit=10):
         response = self._api.recs(limit)
         users = response['results'] if 'results' in response else []
-        return [models.Hopeful(u, self) for u in users]
+        ret = []
+        for u in users:
+            if not u["_id"].startswith("tinder_rate_limited_id_"):
+                ret.append(models.Hopeful(u, self))
+        return ret
 
     def update_profile(self, profile):
         return self._api.update_profile(profile)
