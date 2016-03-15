@@ -46,3 +46,7 @@ class Session(object):
         limited_until = meta_dct['rating'].get(
             'rate_limited_until', now)  # Milliseconds
         return limited_until / 1000 - now
+
+    @property
+    def banned(self):
+        return self.profile.banned

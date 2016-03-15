@@ -70,6 +70,7 @@ class Profile(object):
         self.ping_time = data['ping_time']
         self.name = data['name']
         self.create_date = dateutil.parser.parse(self.create_date)
+        self.banned = data['banned'] if "banned" in data else False
         self._data = data
 
     def __repr__(self):
