@@ -51,7 +51,7 @@ class User(object):
 
     @property
     def common_connections(self):
-        return [p for p in self._data['common_connections']]
+        return [p for p in self._data['common_friends']]
 
     @property
     def thumbnails(self):
