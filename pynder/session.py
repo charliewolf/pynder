@@ -28,7 +28,9 @@ class Session(object):
     def update_location(self, latitude, longitude):
         return self._api.ping(latitude, longitude)
 
-    def matches(self):
+    def matches(self, generator=False):
+        if generator is True:
+            return (models.Match(m, self) for m in self._api.matches())
         return [models.Match(m, self) for m in self._api.matches()]
 
     @property
