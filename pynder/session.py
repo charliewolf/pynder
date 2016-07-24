@@ -36,9 +36,6 @@ class Session(object):
                 matches.append(models.Match(m, self))
         return matches
 
-    def updates(self, date_time=None):
-        return self._api.updates(date_time)
-
     @property
     def likes_remaining(self):
         meta_dct = self._api.meta()
