@@ -28,8 +28,8 @@ class Session(object):
     def update_location(self, latitude, longitude):
         return self._api.ping(latitude, longitude)
 
-    def matches(self, date_time=None):
-        response = self._api.matches(date_time)
+    def matches(self, since=None):
+        response = self._api.matches(since)
         matches = []
         for m in response:  # Filter to only new matches using "person"
             if 'person' in m:
