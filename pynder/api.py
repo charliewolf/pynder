@@ -94,3 +94,10 @@ class TinderAPI(object):
         if 'limit_exceeded' in result and result['limit_exceeded']:
             raise errors.RequestError("Superlike limit exceeded")
         return result
+
+    def fb_friends(self):
+        """
+        Requests records of all facebook friends using Tinder Social.
+        :return: object containing array of all friends who use Tinder Social.
+        """
+        return self._get("/group/friends")
