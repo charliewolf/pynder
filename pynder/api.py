@@ -49,8 +49,11 @@ class TinderAPI(object):
     def _post(self, url, data={}):
         return self._request("post", url, data=data)
 
-    def updates(self):
-        return self._post("/updates")
+    def updates(self, since):  # Field since to retrieve updates from given date.
+        if since:
+            return self._post("/updates", {"last_activity_date": since})
+        else:
+            return self._post("/updates")
 
     def meta(self):
         return self._get("/meta")
@@ -58,8 +61,8 @@ class TinderAPI(object):
     def recs(self, limit=10):
         return self._post("/user/recs", data={"limit": limit})
 
-    def matches(self):
-        return self.updates()['matches']
+    def matches(self, since):
+        return self.updates(since)['matches']
 
     def profile(self):
         return self._get("/profile")
