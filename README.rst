@@ -12,7 +12,7 @@ Once your session is initialized you have the following methods / attributes:
 ::
 
     import pynder
-    session = pynder.Session(facebook_id, facebook_auth_token)
+    session = pynder.Session(facebook_auth_token)
     session.matches() # get users you have already been matched with
     session.update_location(LAT, LON) # updates latitude and longitude for your profile
     session.profile  # your profile. If you update its attributes they will be updated on Tinder.
@@ -54,7 +54,6 @@ To run the tests add a ``test.ini`` to the ``pynder/tests/`` folder with your
 facebook auth details::
 
     [FacebookAuth]
-    facebook_id = XXXX 
     facebook_token = YYYY  
 
 And install the needed test deps::
