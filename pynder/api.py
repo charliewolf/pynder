@@ -18,9 +18,8 @@ class TinderAPI(object):
     def _url(self, path):
         return constants.API_BASE + path
 
-    def auth(self, facebook_id, facebook_token):
-        data = json.dumps({"facebook_id": str(facebook_id),
-                           "facebook_token": facebook_token})
+    def auth(self, facebook_token):
+        data = json.dumps({"facebook_token": facebook_token})
         result = self._session.post(
             self._url('/auth'), data=data, proxies=self._proxies).json()
         if 'token' not in result:

@@ -6,11 +6,11 @@ from . import models
 
 class Session(object):
 
-    def __init__(self, facebook_id, facebook_token, XAuthToken=None, proxies=None):
+    def __init__(self, facebook_token, XAuthToken=None, proxies=None):
         self._api = api.TinderAPI(XAuthToken, proxies)
         # perform authentication
         if XAuthToken is None:
-            self._api.auth(facebook_id, facebook_token)
+            self._api.auth(facebook_token)
         self.profile = models.Profile(self._api.profile(), self._api)
 
     def nearby_users(self, limit=10):
