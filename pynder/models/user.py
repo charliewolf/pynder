@@ -12,7 +12,7 @@ class User(object):
         self._data = data
         self.id = data['_id']
 
-        SIMPLE_FIELDS = ("name", "bio", "birth_date", "ping_time")
+        SIMPLE_FIELDS = ("name", "bio", "birth_date", "ping_time", "connection_count")
         for f in SIMPLE_FIELDS:
             setattr(self, f, data[f])
 
@@ -76,10 +76,6 @@ class User(object):
         return (today.year - self.birth_date.year -
                 ((today.month, today.day) <
                  (self.birth_date.month, self.birth_date.day)))
-    
-    @property                                                                                                                 
-    def connection_count(self):                                                                                               
-        return self._data.get('connection_count')
     
     def __unicode__(self):
         return u"{n} ({a})".format(n=self.name, a=self.age)
