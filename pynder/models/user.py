@@ -76,7 +76,7 @@ class User(object):
         return (today.year - self.birth_date.year -
                 ((today.month, today.day) <
                  (self.birth_date.month, self.birth_date.day)))
-    
+
     def __unicode__(self):
         return u"{n} ({a})".format(n=self.name, a=self.age)
 
