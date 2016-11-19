@@ -38,8 +38,10 @@ class TinderAPI(object):
             blocker.wait(0.01)
             result = self._session.request(method, self._url(
                 url), data=data, proxies=self._proxies)
-        if result.status_code != 200:
+        if result.status_code < 200 or result.status_code >= 300:
             raise errors.RequestError(result.status_code)
+        if result.status_code == 201 or result.status_code == 204:
+            return {}
         return result.json()
 
     def _get(self, url):
@@ -47,6 +49,9 @@ class TinderAPI(object):
 
     def _post(self, url, data={}):
         return self._request("post", url, data=data)
+
+    def _delete(self, url):
+        return self._request("delete", url)
 
     def updates(self, since):  # Field since to retrieve updates from given date.
         if since:
@@ -100,3 +105,19 @@ class TinderAPI(object):
         :return: object containing array of all friends who use Tinder Social.
         """
         return self._get("/group/friends")
+
+    def like_message(self, message):
+        """
+        Hearts a message sent by a match
+        :param message: message id
+        :return: empty json, response code is 201 (Created)
+        """
+        return self._post("/message/{}/like".format(message.id))
+
+    def unlike_message(self, message):
+        """
+        Removes heart from a message
+        :param message: message id
+        :return: empty json, response code is 204 (No content)
+        """
+        return self._delete("/message/{}/like".format(message.id))
