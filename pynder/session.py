@@ -9,8 +9,8 @@ class Session(object):
 
     def __init__(self, facebook_token=None, XAuthToken=None, proxies=None):
         if facebook_token is None and XAuthToken is None:
-            raise errors.InitializationError\
-                ("Either XAuth or facebook token muse be set")
+            raise errors.InitializationError(
+                "Either XAuth or facebook token must be set")
 
         self._api = api.TinderAPI(XAuthToken, proxies)
         # perform authentication
