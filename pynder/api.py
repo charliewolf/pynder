@@ -121,3 +121,6 @@ class TinderAPI(object):
         :return: empty json, response code is 204 (No content)
         """
         return self._delete("/message/{}/like".format(message.id))
+
+    def liked_messages(self, since):
+        return self.updates(since)['liked_messages']

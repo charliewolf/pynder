@@ -26,6 +26,13 @@ class Message(object):
     def unlike(self):
         return self._session._api.unlike_message(self)
 
+    @property
+    def is_liked(self, since=None):
+        for liked_message in self._session._api.liked_messages(since):
+            if self.id == liked_message['message_id']:
+                return liked_message['is_liked']
+        return False
+
     def __unicode__(self):
         return self.body
 
