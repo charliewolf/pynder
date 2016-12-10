@@ -1,3 +1,5 @@
+# encoding=utf8
+
 import dateutil.parser
 from datetime import date
 from .. import constants
@@ -18,6 +20,7 @@ class User(object):
 
         self.photos_obj = [p for p in data['photos']]
         self.birth_date = dateutil.parser.parse(self.birth_date)
+        self.ping_time = dateutil.parser.parse(self.ping_time)
         self.schools = []
         self.schools_id = []
         self.jobs = []
@@ -32,6 +35,21 @@ class User(object):
                              'jobs'] if 'title' in job and 'company' not in job])
         except ValueError:
             pass
+
+    def to_csv(self):
+        return ','.join(str(f) for f in[
+            self.id,
+            unicode(self.name).encode('utf-8'),
+            self.age,
+            unicode(self.bio).encode('utf-8').replace(',', ''),
+            self.birth_date,
+            self.ping_time,
+            self.instagram_username,
+            self.gender,
+            len(self.common_likes),
+            len(self.common_connections),
+            self.distance_km
+        ])
 
     @property
     def instagram_username(self):
@@ -121,7 +139,13 @@ class Match(object):
 
     def __init__(self, match, _session):
         self._session = _session
+
         self.id = match["_id"]
+        self.created_date = dateutil.parser.parse(match['created_date'])
+        self.dead = match['dead']
+        self.last_activity_date = dateutil.parser.parse(match['last_activity_date'])
+        self.message_count = match['message_count']
+
         self.user, self.messages = None, []
         if 'person' in match:
             user_data = _session._api.user_info(
@@ -139,3 +163,12 @@ class Match(object):
 
     def __repr__(self):
         return "<Unnamed match>" if self.user is None else repr(self.user)
+
+    def to_csv(self):
+        return ','.join(str(f) for f in [
+            self.id,
+            self.created_date,
+            self.dead,
+            self.last_activity_date,
+            self.message_count
+        ]) + self.user.to_csv()

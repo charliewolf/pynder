@@ -2,6 +2,7 @@ from time import time
 
 from . import api
 from . import models
+from . import errors
 
 
 class Session(object):
@@ -33,7 +34,11 @@ class Session(object):
         matches = []
         for m in response:  # Filter to only new matches using "person"
             if 'person' in m:
-                matches.append(models.Match(m, self))
+                try:
+                    match = models.Match(m, self)
+                    matches.append(match)
+                except errors.RequestError as e:
+                    print e
         return matches
 
     def get_fb_friends(self):
