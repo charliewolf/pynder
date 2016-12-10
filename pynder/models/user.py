@@ -1,9 +1,14 @@
+# encoding=utf8
+
 import dateutil.parser
 from datetime import date
 from .. import constants
 from six import text_type
 from .message import Message
 
+
+def quote_str(string):
+    return '%' + string + '%'
 
 class User(object):
 
@@ -18,6 +23,7 @@ class User(object):
 
         self.photos_obj = [p for p in data['photos']]
         self.birth_date = dateutil.parser.parse(self.birth_date)
+        self.ping_time = dateutil.parser.parse(self.ping_time)
         self.schools = []
         self.schools_id = []
         self.jobs = []
@@ -32,6 +38,38 @@ class User(object):
                              'jobs'] if 'title' in job and 'company' not in job])
         except ValueError:
             pass
+
+    def to_csv(self):
+        return ','.join(str(f) for f in[
+            self.id,
+            unicode(self.name).encode('utf-8'),
+            self.age,
+            quote_str(unicode(self.bio)
+                      .encode('utf-8')
+                      .replace(',', '')
+                      .replace('\n', '')
+                      .replace('%', '')),
+            self.birth_date,
+            self.ping_time,
+            self.instagram_username,
+            self.gender,
+            '|'.join(self.common_likes).replace(',', ''),
+            len(self.common_likes),
+            '|'.join(self.common_connections).replace(',', ''),
+            len(self.common_connections),
+            self.distance_km
+        ])
+
+    @property
+    def csv_header(self):
+        return ','.join([
+            'user_id',
+            'name', 'age', 'bio', 'birth_date',
+            'ping_time', 'instagram_username',
+            'gender', 'common_likes', 'common_likes_count',
+            'common_connections', 'common_connections_count',
+            'distance_km'
+        ])
 
     @property
     def instagram_username(self):
@@ -121,7 +159,13 @@ class Match(object):
 
     def __init__(self, match, _session):
         self._session = _session
+
         self.id = match["_id"]
+        self.created_date = dateutil.parser.parse(match['created_date'])
+        self.dead = match['dead']
+        self.last_activity_date = dateutil.parser.parse(match['last_activity_date'])
+        self.message_count = match['message_count']
+
         self.user, self.messages = None, []
         if 'person' in match:
             user_data = _session._api.user_info(
@@ -139,3 +183,20 @@ class Match(object):
 
     def __repr__(self):
         return "<Unnamed match>" if self.user is None else repr(self.user)
+
+    @property
+    def csv_header(self):
+        return ','.join([
+            'id', 'created_date',
+            'dead', 'last_activity_date',
+            'message_count'
+        ]) + self.user.csv_header
+
+    def to_csv(self):
+        return ','.join(str(f) for f in [
+            self.id,
+            self.created_date,
+            self.dead,
+            self.last_activity_date,
+            self.message_count
+        ]) + self.user.to_csv()
