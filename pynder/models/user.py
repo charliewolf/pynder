@@ -7,6 +7,9 @@ from six import text_type
 from .message import Message
 
 
+def quote_str(string):
+    return '%' + string + '%'
+
 class User(object):
 
     def __init__(self, data, session):
@@ -41,14 +44,31 @@ class User(object):
             self.id,
             unicode(self.name).encode('utf-8'),
             self.age,
-            unicode(self.bio).encode('utf-8').replace(',', ''),
+            quote_str(unicode(self.bio)
+                      .encode('utf-8')
+                      .replace(',', '')
+                      .replace('\n', '')
+                      .replace('%', '')),
             self.birth_date,
             self.ping_time,
             self.instagram_username,
             self.gender,
+            '|'.join(self.common_likes).replace(',', ''),
             len(self.common_likes),
+            '|'.join(self.common_connections).replace(',', ''),
             len(self.common_connections),
             self.distance_km
+        ])
+
+    @property
+    def csv_header(self):
+        return ','.join([
+            'user_id',
+            'name', 'age', 'bio', 'birth_date',
+            'ping_time', 'instagram_username',
+            'gender', 'common_likes', 'common_likes_count',
+            'common_connections', 'common_connections_count',
+            'distance_km'
         ])
 
     @property
@@ -163,6 +183,14 @@ class Match(object):
 
     def __repr__(self):
         return "<Unnamed match>" if self.user is None else repr(self.user)
+
+    @property
+    def csv_header(self):
+        return ','.join([
+            'id', 'created_date',
+            'dead', 'last_activity_date',
+            'message_count'
+        ]) + self.user.csv_header
 
     def to_csv(self):
         return ','.join(str(f) for f in [
