@@ -23,8 +23,8 @@ class Session(object):
         users = response['results'] if 'results' in response else []
         ret = []
         for u in users:
-            if not u["_id"].startswith("tinder_rate_limited_id_"):
-                ret.append(models.Hopeful(u, self))
+            if not u["user"]["_id"].startswith("tinder_rate_limited_id_"):
+                ret.append(models.Hopeful(u["user"], self))
         return ret
 
     def update_profile(self, profile):
