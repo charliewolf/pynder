@@ -16,7 +16,7 @@ class Session(object):
         # perform authentication
         if XAuthToken is None:
             self._api.auth(facebook_token)
-        self.profile = models.Profile(self._api.profile(), self._api)
+        self.profile = self.get_profile()
 
     def nearby_users(self, limit=10):
         response = self._api.recs(limit)
@@ -27,6 +27,9 @@ class Session(object):
                 ret.append(models.Hopeful(u, self))
         return ret
 
+    def get_profile(self):
+        return models.Profile(self._api.profile(), self._api)
+    
     def update_profile(self, profile):
         return self._api.update_profile(profile)
 
