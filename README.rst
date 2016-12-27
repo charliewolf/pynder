@@ -31,6 +31,7 @@ These have the following properties: ::
     user.ping_time # last online
     user.distance_km # distane from you
     user.common_connections # friends in common
+    user.connection_count # user facebook connection count
     user.common_interests # likes in common - returns a list of {'name':NAME, 'id':ID}
     user.get_photos(width=WIDTH) # a list of photo URLS with either of these widths ["84","172","320","640"]
     user.instagram_username # instagram username
