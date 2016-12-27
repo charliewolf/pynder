@@ -1,7 +1,6 @@
 from time import time
 
 import pynder.api as api
-import pynder.models as models
 from pynder.errors import InitializationError
 from pynder.models import Profile, Hopeful, Match, Friend
 
@@ -46,7 +45,7 @@ class Session(object):
         """
         Returns array of all friends using Tinder Social.
         :return: Array of friends.
-        :rtype: models.Friend[]
+        :rtype: Friend[]
         """
         response = self._api.fb_friends()
         friends = response['results']

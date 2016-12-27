@@ -1,4 +1,4 @@
-import dateutil
+import datetime
 
 import dateutil.parser
 import six
