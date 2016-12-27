@@ -12,7 +12,7 @@ class User(object):
         self._data = data
         self.id = data['_id']
 
-        SIMPLE_FIELDS = ("name", "bio", "birth_date", "ping_time")
+        SIMPLE_FIELDS = ("name", "bio", "birth_date", "ping_time", "content_hash", "s_number")
         for f in SIMPLE_FIELDS:
             setattr(self, f, data[f])
 

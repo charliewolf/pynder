@@ -1,15 +1,17 @@
-API_BASE = 'https://api.gotinder.com'
+API_BASE = "https://api.gotinder.com"
 
-USER_AGENT = 'Tinder Android Version 6.4.1'
+USER_AGENT = "Tinder/6.8.0 (iPhone; iOS 9.0.2; Scale/2.00)"
 
 HEADERS = {
-    "Content-Type": "application/json; charset=utf-8",
-    "User-Agent": USER_AGENT,
-    "Host": API_BASE,
-    "os_version": "1935",
-    "app-version": "371",
-    "platform": "android",  # XXX with ios we run in an error
-    "Accept-Encoding": "gzip"
+	"x-client-version":	"68023",
+	"app-version": "1824",
+	"Accept-Encoding": "gzip, deflate",
+	"platform": "ios",
+	"Accept-Language": "it;q=1, en-US;q=0.9",
+	"Accept": "*/*",
+	"Connection": "keep-alive",
+	"os_version": "90000000002",
+	"Content-type": "application/json; charset=utf-8"
 }
 
 GENDER_MAP = ["male", "female"]

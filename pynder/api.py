@@ -74,11 +74,11 @@ class TinderAPI(object):
     def update_profile(self, profile):
         return self._post("/profile", profile)
 
-    def like(self, user):
-        return self._get("/like/{}".format(user))
+    def like(self, user, content_hash, s_number):
+        return self._get("/like/{}?content_hash=\"{}\"&s_number=\"{}\"".format(user, content_hash, s_number))
 
-    def dislike(self, user):
-        return self._get("/pass/{}".format(user))
+    def dislike(self, user, content_hash, s_number):
+        return self._get("/pass/{}?content_hash=\"{}\"&s_number=\"{}\"".format(user, content_hash, s_number))
 
     def message(self, user, body):
         return self._post("/user/matches/{}".format(user),
@@ -93,8 +93,8 @@ class TinderAPI(object):
     def ping(self, lat, lon):
         return self._post("/user/ping", {"lat": lat, "lon": lon})
 
-    def superlike(self, user):
-        result = self._post("/like/{}/super".format(user))
+    def superlike(self, user, content_hash, s_number):
+        result = self._post("/like/{}/super".format(user), {"content_hash": content_hash, "s_number": s_number})
         if 'limit_exceeded' in result and result['limit_exceeded']:
             raise errors.RequestError("Superlike limit exceeded")
         return result
