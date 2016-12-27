@@ -16,7 +16,7 @@ setup(
     author="Charlie Wolf",
     author_email="charlie@wolf.is",
     description="A client for the tinder api",
-    license="MIT",
+    license="Tequila-ware Rev.44",
     keywords=["tinder", "online dating"],
     url="https://github.com/charliewolf/pynder",
     long_description=long_description,

@@ -1,21 +1,9 @@
-The MIT License (MIT)
+"THE TEQUILA-WARE LICENSE" (Revision 44): <charlie@wolf.is> wrote this file. As long as you retain this notice you can do whatever you want with this software subject to the following restrictions:
 
-Copyright (c) 2014 Charlie Wolf
+1) If we meet some day, and you think this stuff is worth it, you can buy me some tequila in return.
+2) You may not use this software directly or indirectly for any military or paramilitary purpose. This includes, but is not limited to, training, research and development, controlling military hardware, directing military personnel, or troop entertainment. You may not use this software anywhere on a military base or vessel.  You may also not use it for developing "games" produced by the military to recruit players as real soldiers. Special exemptions may be granted on a case-by-case basis to organizations thwarting the spread of communism.
+3) You may not use this software or its derivatives to develop any projects created chiefly for the use or benefit of any government, government agency, or government sponsored enterprise
+4) You may not use this software or its derivatives in connection with communism, socialism, or any organization practicing or advocating for communism or socialism
+5) You may not use this software or its derivatives in connection with mass data collection, whether state-sponsored or private, where "mass data collection" refers to any software or service whose business model is based directly or indirectly on collecting and using data from nonpaying users in exchange for provision of a service to those users not directly related to said data. Projects using this software as a component in a larger project that also interfaces with an organization engaged in this business are exempt (i.e. you can use this in an application that also uses Facebook Connect as long as you are not Facebook.)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
