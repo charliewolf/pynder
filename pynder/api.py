@@ -1,8 +1,8 @@
 import requests
 import json
 import threading
-from . import constants
-from . import errors
+import pynder.constants as constants
+import pynder.errors as errors
 
 
 class TinderAPI(object):

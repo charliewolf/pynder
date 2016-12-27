@@ -1,22 +1,23 @@
 from time import time
 
-from . import api
-from . import models
-from . import errors
+import pynder.api as api
+import pynder.models as models
+from pynder.errors import InitializationError
+from pynder.models import Profile, Hopeful, Match, Friend
 
 
 class Session(object):
 
     def __init__(self, facebook_token=None, XAuthToken=None, proxies=None):
         if facebook_token is None and XAuthToken is None:
-            raise errors.InitializationError(
+            raise InitializationError(
                 "Either XAuth or facebook token must be set")
 
         self._api = api.TinderAPI(XAuthToken, proxies)
         # perform authentication
         if XAuthToken is None:
             self._api.auth(facebook_token)
-        self.profile = models.Profile(self._api.profile(), self._api)
+        self.profile = Profile(self._api.profile(), self._api)
 
     def nearby_users(self, limit=10):
         response = self._api.recs(limit)
@@ -24,7 +25,7 @@ class Session(object):
         ret = []
         for u in users:
             if not u["_id"].startswith("tinder_rate_limited_id_"):
-                ret.append(models.Hopeful(u, self))
+                ret.append(Hopeful(u, self))
         return ret
 
     def update_profile(self, profile):
@@ -38,7 +39,7 @@ class Session(object):
         matches = []
         for m in response:  # Filter to only new matches using "person"
             if 'person' in m:
-                matches.append(models.Match(m, self))
+                matches.append(Match(m, self))
         return matches
 
     def get_fb_friends(self):
@@ -52,7 +53,7 @@ class Session(object):
         ret = []
 
         for f in friends:
-            ret.append(models.Friend(f, self))
+            ret.append(Friend(f, self))
 
         return ret
 

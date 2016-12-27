@@ -1,5 +1,5 @@
 import re
-from .user import User
+from pynder.models.user import User
 
 facebook_id_pattern = re.compile(u'\.com/(\d+?)/')
 

@@ -1,5 +1,6 @@
 import dateutil.parser
-from .. import constants
+
+from pynder.constants import UPDATABLE_FIELDS, GENDER_MAP_REVERSE, GENDER_MAP
 
 
 class ProfileDescriptor(object):
@@ -17,10 +18,10 @@ class ProfileDescriptor(object):
 
     def __set__(self, instance, value):
         profile = {}
-        for key in constants.UPDATABLE_FIELDS:
+        for key in UPDATABLE_FIELDS:
             profile[key] = getattr(instance, key)
-        profile['gender'] = constants.GENDER_MAP_REVERSE[profile['gender']]
-        profile['interested_in'] = [constants.GENDER_MAP_REVERSE[x] for x in
+        profile['gender'] = GENDER_MAP_REVERSE[profile['gender']]
+        profile['interested_in'] = [GENDER_MAP_REVERSE[x] for x in
                                     profile['interested_in']]
         profile[self.id] = value
         instance.__init__(instance._api.update_profile(profile), instance._api)
@@ -32,10 +33,10 @@ class GenderDescriptor(ProfileDescriptor):
 
     def __get__(self, instance, owner):
         gender = super(GenderDescriptor, self).__get__(instance, owner)
-        return constants.GENDER_MAP[gender]
+        return GENDER_MAP[gender]
 
     def __set__(self, instance, value):
-        gender = constants.GENDER_MAP_REVERSE[value]
+        gender = GENDER_MAP_REVERSE[value]
         return super(GenderDescriptor, self).__get__(instance, gender)
 
 
@@ -45,10 +46,10 @@ class InterestedInDescriptor(ProfileDescriptor):
     def __get__(self, instance, owner):
         interested_in = super(InterestedInDescriptor, self).\
             __get__(instance, owner)
-        return map(lambda x: constants.GENDER_MAP[x], interested_in)
+        return map(lambda x: GENDER_MAP[x], interested_in)
 
     def __set__(self, instance, value):
-        interested_in = map(lambda x: constants.GENDER_MAP_REVERSE[x], value)
+        interested_in = map(lambda x: GENDER_MAP_REVERSE[x], value)
         return super(InterestedInDescriptor, self).\
             __get__(instance, interested_in)
 

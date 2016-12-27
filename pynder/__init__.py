@@ -1,1 +1,1 @@
-from .session import Session  # NOQA
+from pynder.session import Session  # NOQA

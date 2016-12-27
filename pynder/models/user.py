@@ -1,8 +1,10 @@
+import dateutil
+
 import dateutil.parser
-from datetime import date
-from .. import constants
-from six import text_type
-from .message import Message
+import six
+
+from pynder.constants import GENDER_MAP
+from pynder.models.message import Message
 
 
 class User(object):
@@ -45,7 +47,7 @@ class User(object):
 
     @property
     def gender(self):
-        return constants.GENDER_MAP[int(self._data['gender'])]
+        return GENDER_MAP[int(self._data['gender'])]
 
     @property
     def common_likes(self):
@@ -72,7 +74,7 @@ class User(object):
 
     @property
     def age(self):
-        today = date.today()
+        today = datetime.date.today()
         return (today.year - self.birth_date.year -
                 ((today.month, today.day) <
                  (self.birth_date.month, self.birth_date.day)))
@@ -81,7 +83,7 @@ class User(object):
         return u"{n} ({a})".format(n=self.name, a=self.age)
 
     def __str__(self):
-        return text_type(self).encode('utf-8')
+        return six.text_type(self).encode('utf-8')
 
     def __repr__(self):
         return repr(self.name)
