@@ -64,5 +64,5 @@ Now we we can run the tests::
 
     $ nosetests pynder --with-coverage --cover-package pynder
 
-**ATTENTION** The recored request may contain personal data so remove them
+**ATTENTION** The recorded request may contain personal data so remove them
 before committing.
