@@ -1,5 +1,4 @@
 import requests
-import json
 import threading
 import pynder.constants as constants
 import pynder.errors as errors
@@ -19,9 +18,9 @@ class TinderAPI(object):
         return constants.API_BASE + path
 
     def auth(self, facebook_token):
-        data = json.dumps({"facebook_token": facebook_token})
+        data = {"facebook_token": facebook_token}
         result = self._session.post(
-            self._url('/auth'), data=data, proxies=self._proxies).json()
+            self._url('/auth'), json=data, proxies=self._proxies).json()
         if 'token' not in result:
             raise errors.RequestError("Couldn't authenticate")
         self._token = result['token']
@@ -32,7 +31,7 @@ class TinderAPI(object):
         if not hasattr(self, '_token'):
             raise errors.InitializationError
         result = self._session.request(method, self._url(
-            url), data=json.dumps(data), proxies=self._proxies)
+            url), json=data, proxies=self._proxies)
         while result.status_code == 429:
             blocker = threading.Event()
             blocker.wait(0.01)
@@ -53,11 +52,8 @@ class TinderAPI(object):
     def _delete(self, url):
         return self._request("delete", url)
 
-    def updates(self, since):  # Field since to retrieve updates from given date.
-        if since:
-            return self._post("/updates", {"last_activity_date": since})
-        else:
-            return self._post("/updates")
+    def updates(self, since):
+        return self._post("/updates", {"last_activity_date": since} if since else {})
 
     def meta(self):
         return self._get("/meta")
