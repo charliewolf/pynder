@@ -29,7 +29,7 @@ class Session(object):
 
     def get_profile(self):
         return models.Profile(self._api.profile(), self._api)
-    
+
     def update_profile(self, profile):
         return self._api.update_profile(profile)
 
