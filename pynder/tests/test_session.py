@@ -27,4 +27,4 @@ class TestSession(unittest.TestCase):
     def test_nearby_users_empty(self):
         auth = read_test_ini()
         session = pynder.Session(auth["facebook_token"])
-        self.assertEqual(session.nearby_users(limit=10), [])
+        self.assertEqual(len(list(session.nearby_users(limit=10))), 0)
