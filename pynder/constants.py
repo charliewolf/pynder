@@ -20,3 +20,5 @@ UPDATABLE_FIELDS = [
     'gender', 'age_filter_min', 'age_filter_max',
     'distance_filter', 'age_filter_min', 'bio', 'interested_in'
 ]
+
+SIMPLE_FIELDS = ("name", "bio", "birth_date", "ping_time")

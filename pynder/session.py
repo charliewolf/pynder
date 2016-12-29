@@ -16,7 +16,7 @@ class Session(object):
         # perform authentication
         if XAuthToken is None:
             self._api.auth(facebook_token)
-    
+
     @cached_property
     def profile(self):
         return Profile(self._api.profile(), self._api)
@@ -30,7 +30,7 @@ class Session(object):
                     yield Hopeful(user, self)
             if not len(users):
                 break
-        
+
     def update_profile(self, profile):
         return self._api.update_profile(profile)
 

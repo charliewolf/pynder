@@ -3,7 +3,7 @@ import datetime
 import dateutil.parser
 import six
 
-from pynder.constants import GENDER_MAP
+from pynder.constants import GENDER_MAP, SIMPLE_FIELDS
 from pynder.models.message import Message
 
 
@@ -14,9 +14,8 @@ class User(object):
         self._data = data
         self.id = data['_id']
 
-        SIMPLE_FIELDS = ("name", "bio", "birth_date", "ping_time")
         for field in SIMPLE_FIELDS:
-            setattr(self, field, data.get(f))
+            setattr(self, field, data.get(field))
 
         self.photos_obj = [photo for photo in data['photos']]
         self.birth_date = dateutil.parser.parse(self.birth_date)
