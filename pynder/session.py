@@ -1,4 +1,5 @@
 from time import time
+from cached_property import cached_property
 
 import pynder.api as api
 from pynder.errors import InitializationError
@@ -9,24 +10,27 @@ class Session(object):
 
     def __init__(self, facebook_token=None, XAuthToken=None, proxies=None):
         if facebook_token is None and XAuthToken is None:
-            raise InitializationError(
-                "Either XAuth or facebook token must be set")
+            raise InitializationError("Either XAuth or facebook token must be set")
 
         self._api = api.TinderAPI(XAuthToken, proxies)
         # perform authentication
         if XAuthToken is None:
             self._api.auth(facebook_token)
-        self.profile = Profile(self._api.profile(), self._api)
+    
+    @cached_property
+    def profile(self):
+        return Profile(self._api.profile(), self._api)
 
     def nearby_users(self, limit=10):
-        response = self._api.recs(limit)
-        users = response['results'] if 'results' in response else []
-        ret = []
-        for u in users:
-            if not u["_id"].startswith("tinder_rate_limited_id_"):
-                ret.append(Hopeful(u, self))
-        return ret
-
+        while True:
+            response = self._api.recs(limit)
+            users = response['results'] if 'results' in response else []
+            for user in users:
+                if not user["_id"].startswith("tinder_rate_limited_id_"):
+                    yield Hopeful(user, self)
+            if not len(users):
+                break
+        
     def update_profile(self, profile):
         return self._api.update_profile(profile)
 
@@ -35,7 +39,7 @@ class Session(object):
 
     def matches(self, since=None):
         response = self._api.matches(since)
-        return (Match(m, self) for m in response if 'person' in m)
+        return (Match(match, self) for match in response if 'person' in match)
 
     def get_fb_friends(self):
         """
@@ -44,28 +48,19 @@ class Session(object):
         :rtype: Friend[]
         """
         response = self._api.fb_friends()
-        friends = response['results']
-        ret = []
-
-        for f in friends:
-            ret.append(Friend(f, self))
-
-        return ret
+        return (Friend(friend, self) for friend in response['results'])
 
     @property
     def likes_remaining(self):
-        meta_dct = self._api.meta()
-        return meta_dct['rating']['likes_remaining']
+        return self._api.meta()['rating']['likes_remaining']
 
     @property
     def can_like_in(self):
-        '''
+        """
         Return the number of seconds before being allowed to issue likes
-        '''
-        meta_dct = self._api.meta()
+        """
         now = int(time())
-        limited_until = meta_dct['rating'].get(
-            'rate_limited_until', now)  # Milliseconds
+        limited_until = self._api.meta()['rating'].get('rate_limited_until', now)
         return limited_until / 1000 - now
 
     @property

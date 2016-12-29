@@ -15,10 +15,10 @@ class User(object):
         self.id = data['_id']
 
         SIMPLE_FIELDS = ("name", "bio", "birth_date", "ping_time")
-        for f in SIMPLE_FIELDS:
-            setattr(self, f, data[f])
+        for field in SIMPLE_FIELDS:
+            setattr(self, field, data.get(f))
 
-        self.photos_obj = [p for p in data['photos']]
+        self.photos_obj = [photo for photo in data['photos']]
         self.birth_date = dateutil.parser.parse(self.birth_date)
         self.schools = []
         self.schools_id = []
