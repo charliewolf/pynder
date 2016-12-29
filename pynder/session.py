@@ -35,11 +35,7 @@ class Session(object):
 
     def matches(self, since=None):
         response = self._api.matches(since)
-        matches = []
-        for m in response:  # Filter to only new matches using "person"
-            if 'person' in m:
-                matches.append(Match(m, self))
-        return matches
+        return (Match(m, self) for m in response if 'person' in m)
 
     def get_fb_friends(self):
         """
