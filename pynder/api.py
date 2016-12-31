@@ -1,7 +1,8 @@
 import requests
+import json
 import threading
-import pynder.constants as constants
-import pynder.errors as errors
+from . import constants
+from . import errors
 
 
 class TinderAPI(object):
@@ -17,10 +18,11 @@ class TinderAPI(object):
     def _url(self, path):
         return constants.API_BASE + path
 
-    def auth(self, facebook_token):
-        data = {"facebook_token": facebook_token}
+    def auth(self, facebook_id, facebook_token):
+        data = json.dumps({"facebook_id": str(facebook_id),
+                           "facebook_token": facebook_token})
         result = self._session.post(
-            self._url('/auth'), json=data, proxies=self._proxies).json()
+            self._url('/auth'), data=data, proxies=self._proxies).json()
         if 'token' not in result:
             raise errors.RequestError("Couldn't authenticate")
         self._token = result['token']
@@ -31,16 +33,14 @@ class TinderAPI(object):
         if not hasattr(self, '_token'):
             raise errors.InitializationError
         result = self._session.request(method, self._url(
-            url), json=data, proxies=self._proxies)
+            url), data=json.dumps(data), proxies=self._proxies)
         while result.status_code == 429:
             blocker = threading.Event()
             blocker.wait(0.01)
             result = self._session.request(method, self._url(
                 url), data=data, proxies=self._proxies)
-        if result.status_code < 200 or result.status_code >= 300:
+        if result.status_code != 200:
             raise errors.RequestError(result.status_code)
-        if result.status_code == 201 or result.status_code == 204:
-            return {}
         return result.json()
 
     def _get(self, url):
@@ -49,11 +49,8 @@ class TinderAPI(object):
     def _post(self, url, data={}):
         return self._request("post", url, data=data)
 
-    def _delete(self, url):
-        return self._request("delete", url)
-
-    def updates(self, since):
-        return self._post("/updates", {"last_activity_date": since} if since else {})
+    def updates(self):
+        return self._post("/updates")
 
     def meta(self):
         return self._get("/meta")
@@ -61,20 +58,25 @@ class TinderAPI(object):
     def recs(self, limit=10):
         return self._post("/user/recs", data={"limit": limit})
 
-    def matches(self, since):
-        return self.updates(since)['matches']
+    def matches(self):
+        return self.updates()['matches']
 
     def profile(self):
         return self._get("/profile")
+	
+    def boost(self):
+        return self._post("/boost")
 
     def update_profile(self, profile):
         return self._post("/profile", profile)
 
-    def like(self, user):
-        return self._get("/like/{}".format(user))
+    def like(self, user, photoId, user_traveling, content_hash, s_number):
+        req = self._get("/like/{}?photoId={}&user_traveling={}&content_hash={}&s_number={}".format(user, photoId, user_traveling, content_hash, s_number))
+        return req
 
-    def dislike(self, user):
-        return self._get("/pass/{}".format(user))
+    def dislike(self, user, photoId, content_hash, s_number):
+        req = self._get("/pass/{}?photoId={}&content_hash={}&s_number={}".format(user, photoId, content_hash,s_number))
+        return req
 
     def message(self, user, body):
         return self._post("/user/matches/{}".format(user),
@@ -94,29 +96,3 @@ class TinderAPI(object):
         if 'limit_exceeded' in result and result['limit_exceeded']:
             raise errors.RequestError("Superlike limit exceeded")
         return result
-
-    def fb_friends(self):
-        """
-        Requests records of all facebook friends using Tinder Social.
-        :return: object containing array of all friends who use Tinder Social.
-        """
-        return self._get("/group/friends")
-
-    def like_message(self, message):
-        """
-        Hearts a message sent by a match
-        :param message: message id
-        :return: empty json, response code is 201 (Created)
-        """
-        return self._post("/message/{}/like".format(message.id))
-
-    def unlike_message(self, message):
-        """
-        Removes heart from a message
-        :param message: message id
-        :return: empty json, response code is 204 (No content)
-        """
-        return self._delete("/message/{}/like".format(message.id))
-
-    def liked_messages(self, since):
-        return self.updates(since)['liked_messages']
