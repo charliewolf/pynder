@@ -1,11 +1,15 @@
-import datetime
-
 import dateutil.parser
-import six
+from datetime import date
+from .. import constants
+from six import text_type
+from .message import Message
 
-from pynder.constants import GENDER_MAP, SIMPLE_FIELDS
-from pynder.models.message import Message
-
+def get_photoId(photo_array):
+		photo = photo_array[0]
+		photo_url = photo['url']
+		start = '/'
+		end = '.jpg'
+		return photo_url[photo_url.find(start)+len(start):photo_url.rfind(end)][-36:]
 
 class User(object):
 
@@ -13,18 +17,20 @@ class User(object):
         self._session = session
         self._data = data
         self.id = data['_id']
+        self.photoId = get_photoId(data['photos'])
+        self.content_hash = data['content_hash']
+        self.s_number = data['s_number']
 
-        for field in SIMPLE_FIELDS:
-            setattr(self, field, data.get(field))
+        SIMPLE_FIELDS = ("name", "bio", "birth_date", "ping_time")
+        for f in SIMPLE_FIELDS:
+            setattr(self, f, data[f])
 
-        self.photos_obj = [photo for photo in data['photos']]
+        self.photos_obj = [p for p in data['photos']]
         self.birth_date = dateutil.parser.parse(self.birth_date)
         self.schools = []
-        self.schools_id = []
         self.jobs = []
         try:
             self.schools.extend([school["name"] for school in data['schools']])
-            self.schools_id.extend([school["id"] for school in data['schools']])
             self.jobs.extend(["%s @ %s" % (job["title"]["name"], job["company"][
                              "name"]) for job in data['jobs'] if 'title' in job and 'company' in job])
             self.jobs.extend(["%s" % (job["company"]["name"],) for job in data[
@@ -42,15 +48,16 @@ class User(object):
     @property
     def instagram_photos(self):
         if self._data.get("instagram", False):
-            return [p for p in self._data['instagram']['photos']]
+            return [p for p in self._data['instagram']['photos']]		
+		
 
     @property
     def gender(self):
-        return GENDER_MAP[int(self._data['gender'])]
+        return constants.GENDER_MAP[int(self._data['gender'])]
 
     @property
-    def common_likes(self):
-        return [p for p in self._data['common_likes']]
+    def common_interests(self):
+        return [p for p in self._data['common_interests']]
 
     @property
     def common_connections(self):
@@ -73,7 +80,7 @@ class User(object):
 
     @property
     def age(self):
-        today = datetime.date.today()
+        today = date.today()
         return (today.year - self.birth_date.year -
                 ((today.month, today.day) <
                  (self.birth_date.month, self.birth_date.day)))
@@ -82,7 +89,7 @@ class User(object):
         return u"{n} ({a})".format(n=self.name, a=self.age)
 
     def __str__(self):
-        return six.text_type(self).encode('utf-8')
+        return text_type(self).encode('utf-8')
 
     def __repr__(self):
         return repr(self.name)
@@ -107,15 +114,17 @@ class User(object):
 
 
 class Hopeful(User):
-
+	
     def like(self):
-        return self._session._api.like(self.id)['match']
+        return self._session._api.like(self.id, self.photoId, "true", self.content_hash, self.s_number)['match']
 
     def superlike(self):
         return self._session._api.superlike(self.id)['match']
 
     def dislike(self):
-        return self._session._api.dislike(self.id)
+        return self._session._api.dislike(self.id, self.photoId, self.content_hash, self.s_number)
+		
+	
 
 
 class Match(object):
@@ -136,7 +145,7 @@ class Match(object):
         return self._session._api.message(self.id, body)['_id']
 
     def delete(self):
-        return self._session._api._delete('/user/matches/' + self.id)
+        return self._session._api._request('DELETE', '/user/matches/' + self.id)
 
     def __repr__(self):
         return "<Unnamed match>" if self.user is None else repr(self.user)
