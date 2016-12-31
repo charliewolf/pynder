@@ -18,7 +18,11 @@ class User(object):
         self._data = data
         self.id = data['_id']
         self.photoId = get_photoId(data['photos'])
-        self.content_hash = data['content_hash']
+        try:
+            self.content_hash = data['content_hash']
+        except KeyError:
+            print "error getting content hash"
+            self.content_hash = "" 
         self.s_number = data['s_number']
 
         SIMPLE_FIELDS = ("name", "bio", "birth_date", "ping_time")
