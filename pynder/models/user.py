@@ -5,11 +5,11 @@ from six import text_type
 from .message import Message
 
 def get_photoId(photo_array):
-		photo = photo_array[0]
-		photo_url = photo['url']
-		start = '/'
-		end = '.jpg'
-		return photo_url[photo_url.find(start)+len(start):photo_url.rfind(end)][-36:]
+        photo = photo_array[0]
+        photo_url = photo['url']
+        start = '/'
+        end = '.jpg'
+        return photo_url[photo_url.find(start)+len(start):photo_url.rfind(end)][-36:]
 
 class User(object):
 
