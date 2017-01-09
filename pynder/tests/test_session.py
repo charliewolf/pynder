@@ -17,14 +17,16 @@ class TestSession(unittest.TestCase):
     def setUp(self):
         pass
 
-    @my_vcr.use_cassette(filter_post_data_parameters=["facebook_token"])
+    @my_vcr.use_cassette(filter_post_data_parameters=["facebook_id",
+                                                      "facebook_token"])
     def test_login(self):
         auth = read_test_ini()
-        session = pynder.Session(auth["facebook_token"])
+        session = pynder.Session(facebook_id=auth["facebook_id"], facebook_token=auth["facebook_token"])
         self.assertEqual(session.profile.gender, "male")
 
-    @my_vcr.use_cassette(filter_post_data_parameters=["facebook_token"])
+    @my_vcr.use_cassette(filter_post_data_parameters=["facebook_id",
+                                                      "facebook_token"])
     def test_nearby_users_empty(self):
         auth = read_test_ini()
-        session = pynder.Session(auth["facebook_token"])
+        session = pynder.Session(facebook_token=auth["facebook_token"], facebook_id=auth["facebook_id"])
         self.assertEqual(len(list(session.nearby_users(limit=10))), 0)
