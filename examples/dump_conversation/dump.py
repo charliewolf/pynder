@@ -33,7 +33,7 @@ if __name__ == "__main__":
     ap.add_argument("name", help="Name of match")
     args = ap.parse_args()
 
-    s = Session(ID, FB_TOKEN)
+    s = Session(facebook_id=ID, facebook_token=FB_TOKEN)
 
     matches = [m for m in s.matches() if m.user is not None and m.user.name == args.name]
     match =  select_interactively(matches, args.name)
