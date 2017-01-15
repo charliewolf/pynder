@@ -50,6 +50,10 @@ class Session(object):
         response = self._api.fb_friends()
         return (Friend(friend, self) for friend in response['results'])
 
+    def updates(self, since=None):
+        response = self._api.updates(since)
+        return (Match(match, self) for match in response["matches"] if 'person' in match)
+
     @property
     def likes_remaining(self):
         return self._api.meta()['rating']['likes_remaining']
