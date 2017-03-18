@@ -117,6 +117,9 @@ class Hopeful(User):
     def dislike(self):
         return self._session._api.dislike(self.id)
 
+    def share(self):
+        return self._session._api.share(self.id)['link']
+
 
 class Match(object):
 
