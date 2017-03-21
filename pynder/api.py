@@ -89,6 +89,9 @@ class TinderAPI(object):
     def ping(self, lat, lon):
         return self._post("/user/ping", {"lat": lat, "lon": lon})
 
+    def share(self, user):
+        return self._post("/user/{}/share".format(user))
+
     def superlike(self, user):
         result = self._post("/like/{}/super".format(user))
         if 'limit_exceeded' in result and result['limit_exceeded']:

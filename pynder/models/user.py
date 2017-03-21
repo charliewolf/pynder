@@ -78,6 +78,10 @@ class User(object):
                 ((today.month, today.day) <
                  (self.birth_date.month, self.birth_date.day)))
 
+    @property
+    def share_link(self):
+        return self._session._api.share(self.id)['link']
+
     def __unicode__(self):
         return u"{n} ({a})".format(n=self.name, a=self.age)
 
