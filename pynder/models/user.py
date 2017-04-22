@@ -128,6 +128,9 @@ class Match(object):
         self._session = _session
         self.id = match["_id"]
         self.user, self.messages = None, []
+        self.match_date = datetime.datetime.strptime(
+         match["created_date"], "%Y-%m-%dT%H:%M:%S.%fZ"
+        )
         if 'person' in match:
             user_data = _session._api.user_info(
                 match['person']['_id'])['results']
