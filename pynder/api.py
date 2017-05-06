@@ -80,6 +80,10 @@ class TinderAPI(object):
         return self._post("/user/matches/{}".format(user),
                           {"message": str(body)})
 
+    def message_gif(self, user, gify_id):
+        return self._post("/user/matches/{}".format(user),
+                          {"type": "gif", "gif_id": str(gify_id)})
+
     def report(self, user, cause=1):
         return self._post("/report/" + user, {"cause": cause})
 
