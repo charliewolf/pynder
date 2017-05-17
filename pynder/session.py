@@ -27,6 +27,8 @@ class Session(object):
             users = response['results'] if 'results' in response else []
             for user in users:
                 if not user["_id"].startswith("tinder_rate_limited_id_"):
+                    if not 'bio' in user:
+                        user['bio'] = ''
                     yield Hopeful(user, self)
             if not len(users):
                 break
