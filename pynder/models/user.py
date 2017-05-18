@@ -15,7 +15,7 @@ class User(object):
         self.id = data['_id']
 
         for field in SIMPLE_FIELDS:
-            setattr(self, field, data.get(field))
+            setattr(self, field, data.get(field, ''))
 
         self.photos_obj = [photo for photo in data['photos']]
         self.birth_date = dateutil.parser.parse(self.birth_date)
