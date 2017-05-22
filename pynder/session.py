@@ -59,6 +59,10 @@ class Session(object):
         return self._api.meta()['rating']['likes_remaining']
 
     @property
+    def super_likes_remaining(self):
+        return self._api.meta()['rating']['super_likes']['remaining']
+
+    @property
     def can_like_in(self):
         """
         Return the number of seconds before being allowed to issue likes
