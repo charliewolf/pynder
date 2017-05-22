@@ -142,6 +142,9 @@ class Match(object):
     def message(self, body):
         return self._session._api.message(self.id, body)['_id']
 
+    def message_gif(self, giphy_id):
+        return self._session._api.message_gif(self.id, giphy_id)['_id']
+
     def delete(self):
         return self._session._api._delete('/user/matches/' + self.id)
 
