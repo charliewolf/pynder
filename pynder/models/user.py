@@ -13,7 +13,6 @@ class User(object):
         self._session = session
         self._data = data
         self.id = data['_id']
-
         for field in SIMPLE_FIELDS:
             setattr(self, field, data.get(field))
 
