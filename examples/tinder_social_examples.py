@@ -3,7 +3,7 @@ import pynder
 FBID = "YOUR_FB_ID"
 FBTOKEN= "YOUR_FB_TOKEN"
 
-session = pynder.Session(facebook_id=BID, facebook_token=FBTOKEN)
+session = pynder.Session(facebook_id=FBID, facebook_token=FBTOKEN)
 friends = session.get_fb_friends()
 
 # Print the names of all facebook friends using Tinder Social.

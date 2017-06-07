@@ -1,7 +1,7 @@
 import dateutil.parser
 
 from pynder.constants import UPDATABLE_FIELDS, GENDER_MAP_REVERSE, GENDER_MAP
-
+from pynder.models.base import Model
 
 class ProfileDescriptor(object):
     # this is a python descriptor that allows for
@@ -41,7 +41,7 @@ class GenderDescriptor(ProfileDescriptor):
 
 
 class InterestedInDescriptor(ProfileDescriptor):
-    # makes gender human readable
+    # makes interested in human readable
 
     def __get__(self, instance, owner):
         interested_in = super(InterestedInDescriptor, self).\
@@ -54,7 +54,7 @@ class InterestedInDescriptor(ProfileDescriptor):
             __get__(instance, interested_in)
 
 
-class Profile(object):
+class Profile(Model):
     bio = ProfileDescriptor('bio')
     discoverable = ProfileDescriptor('discoverable')
     distance_filter = ProfileDescriptor('distance_filter')

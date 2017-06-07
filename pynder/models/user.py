@@ -1,13 +1,13 @@
 import datetime
-
 import dateutil.parser
 import six
 
-from pynder.constants import GENDER_MAP, SIMPLE_FIELDS
+from pynder.models.base import Model
+from pynder.constants import GENDER_MAP, SIMPLE_FIELDS, VALID_PHOTO_SIZES
 from pynder.models.message import Message
 
 
-class User(object):
+class User(Model):
 
     def __init__(self, data, session):
         self._session = session
@@ -17,31 +17,26 @@ class User(object):
         for field in SIMPLE_FIELDS:
             setattr(self, field, data.get(field))
 
-        self.photos_obj = [photo for photo in data['photos']]
+        self._photos = data['photos']
         self.birth_date = dateutil.parser.parse(self.birth_date)
-        self.schools = []
-        self.schools_id = []
+        self.schools = {}
         self.jobs = []
         try:
-            self.schools.extend([school["name"] for school in data['schools']])
-            self.schools_id.extend([school["id"] for school in data['schools']])
-            self.jobs.extend(["%s @ %s" % (job["title"]["name"], job["company"][
-                             "name"]) for job in data['jobs'] if 'title' in job and 'company' in job])
-            self.jobs.extend(["%s" % (job["company"]["name"],) for job in data[
-                             'jobs'] if 'title' not in job and 'company' in job])
-            self.jobs.extend(["%s" % (job["title"]["name"],) for job in data[
-                             'jobs'] if 'title' in job and 'company' not in job])
+            self.schools.update({school["id"]: school["name"] for school in data['schools'] if 'id' in school and 'name' in school})
+            self.jobs.extend(["%s @ %s" % (job["title"]["name"], job["company"]["name"]) for job in data['jobs'] if 'title' in job and 'company' in job])
+            self.jobs.extend(["%s" % (job["company"]["name"],) for job in data['jobs'] if 'title' not in job and 'company' in job])
+            self.jobs.extend(["%s" % (job["title"]["name"],) for job in data['jobs'] if 'title' in job and 'company' not in job])
         except ValueError:
             pass
 
     @property
     def instagram_username(self):
-        if self._data.get("instagram", False):
+        if "instagram" in self._data:
             return self._data['instagram']['username']
 
     @property
     def instagram_photos(self):
-        if self._data.get("instagram", False):
+        if "instagram" in self._data:
             return [p for p in self._data['instagram']['photos']]
 
     @property
@@ -58,7 +53,7 @@ class User(object):
 
     @property
     def thumbnails(self):
-        return self.get_photos(width="84")
+        return self.get_photos(width=84)
 
     @property
     def photos(self):
@@ -94,23 +89,10 @@ class User(object):
     def report(self, cause):
         return self._session._api.report(self.id, cause)
 
-    def get_photos(self, width=None):
-        photos_list = []
-        for photo in self.photos_obj:
-            if width is None:
-                photos_list.append(photo.get("url"))
-            else:
-                sizes = ["84", "172", "320", "640"]
-                if width not in sizes:
-                    print("Only support these widths: %s" % sizes)
-                    return None
-                for p in photo.get("processedFiles", []):
-                    if p.get("width", 0) == int(width):
-                        photos_list.append(p.get("url", None))
-        return photos_list
-
-
-class Hopeful(User):
+    def get_photos(self, width=640):
+        if width not in VALID_PHOTO_SIZES:
+            raise ValueError("Unsupported width")
+        [processed_photo['url'] for processed_photo in photo.get("processedFiles", []) if processed_photo['width'] == int(width) for photo in self._photos] 
 
     def like(self):
         return self._session._api.like(self.id)['match']
@@ -122,7 +104,7 @@ class Hopeful(User):
         return self._session._api.dislike(self.id)
 
 
-class Match(object):
+class Match(Model):
 
     def __init__(self, match, _session):
         self._session = _session

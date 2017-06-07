@@ -18,7 +18,7 @@ Once your session is initialized you have the following methods / attributes:
     session.profile  # your profile. If you update its attributes they will be updated on Tinder.
     users = session.nearby_users() # returns a iterable of users nearby
 
-When you run nearby_users you will receive a iterable of `Hopeful` objects. 
+When you run nearby_users you will receive a iterable of `User` objects. 
 These have the following properties: ::
 
     user = users[0]

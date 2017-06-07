@@ -22,3 +22,5 @@ UPDATABLE_FIELDS = [
 ]
 
 SIMPLE_FIELDS = ("name", "bio", "birth_date", "ping_time")
+
+VALID_PHOTO_SIZES = ["84", "172", "320", "640"]

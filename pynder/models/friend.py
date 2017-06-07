@@ -1,10 +1,11 @@
 import re
 from pynder.models.user import User
+from pynder.models.base import Model
 
 facebook_id_pattern = re.compile(u'\.com/(\d+?)/')
 
 
-class Friend(object):
+class Friend(Model):
 
     def __init__(self, data, session):
         """
