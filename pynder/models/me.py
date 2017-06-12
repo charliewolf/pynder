@@ -3,6 +3,7 @@ import dateutil.parser
 from pynder.constants import UPDATABLE_FIELDS, GENDER_MAP_REVERSE, GENDER_MAP
 from pynder.models.base import Model
 
+
 class ProfileDescriptor(object):
     # this is a python descriptor that allows for
     # dynamic updating of profile data

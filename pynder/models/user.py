@@ -1,3 +1,4 @@
+import itertools
 import datetime
 import dateutil.parser
 import six
@@ -92,7 +93,7 @@ class User(Model):
     def get_photos(self, width=640):
         if width not in VALID_PHOTO_SIZES:
             raise ValueError("Unsupported width")
-        [processed_photo['url'] for processed_photo in photo.get("processedFiles", []) if processed_photo['width'] == int(width) for photo in self._photos] 
+        return itertools.chain.from_iterable([[processed_photo['url'] for processed_photo in photo.get("processedFiles", []) if processed_photo['width'] == int(width)] for photo in self._photos])
 
     def like(self):
         return self._session._api.like(self.id)['match']
