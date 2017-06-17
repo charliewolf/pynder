@@ -91,7 +91,7 @@ class User(Model):
         return self._session._api.report(self.id, cause)
 
     def get_photos(self, width=640):
-        if width not in VALID_PHOTO_SIZES:
+        if int(width) not in VALID_PHOTO_SIZES:
             raise ValueError("Unsupported width")
         return itertools.chain.from_iterable([[processed_photo['url'] for processed_photo in photo.get("processedFiles", []) if processed_photo['width'] == int(width)] for photo in self._photos])
 

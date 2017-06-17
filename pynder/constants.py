@@ -12,7 +12,7 @@ HEADERS = {
     "Accept-Encoding": "gzip"
 }
 
-GENDER_MAP = ["male", "female"]
+GENDER_MAP = ("male", "female")
 
 GENDER_MAP_REVERSE = {"male": 0, "female": 1}
 
@@ -21,6 +21,6 @@ UPDATABLE_FIELDS = [
     'distance_filter', 'age_filter_min', 'bio', 'interested_in'
 ]
 
-SIMPLE_FIELDS = ("name", "bio", "birth_date", "ping_time")
+SIMPLE_FIELDS = {"name", "bio", "birth_date", "ping_time"}
 
-VALID_PHOTO_SIZES = ["84", "172", "320", "640"]
+VALID_PHOTO_SIZES = {84, 172, 320, 640}
