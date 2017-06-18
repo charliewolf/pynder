@@ -108,6 +108,7 @@ class User(Model):
     def dislike(self):
         return self._session._api.dislike(self.id)
 
+
 class RateLimited(User):
 
     pass
