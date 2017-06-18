@@ -109,7 +109,9 @@ class User(Model):
         return self._session._api.dislike(self.id)
 
 class RateLimited(User):
+
     pass
+
 
 class Match(Model):
 
