@@ -69,7 +69,7 @@ class User(Model):
 
     @property
     def distance_mi(self):
-        return self.distance_km * 1.60934
+        return self.distance_km / 1.60934
 
     @property
     def age(self):
