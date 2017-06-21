@@ -27,7 +27,7 @@ class User(Model):
             self.jobs.extend(["%s @ %s" % (job["title"]["name"], job["company"]["name"]) for job in data['jobs'] if 'title' in job and 'company' in job])
             self.jobs.extend(["%s" % (job["company"]["name"],) for job in data['jobs'] if 'title' not in job and 'company' in job])
             self.jobs.extend(["%s" % (job["title"]["name"],) for job in data['jobs'] if 'title' in job and 'company' not in job])
-        except ValueError:
+        except (ValueError, KeyError):
             pass
 
     @property
@@ -63,9 +63,13 @@ class User(Model):
     @property
     def distance_km(self):
         if self._data.get("distance_mi", False) or self._data.get("distance_km", False):
-            return self._data.get('distance_km', self._data['distance_mi'] * 1.60934)
+            return self._data.get('distance_km', self._data['distance_mi'])
         else:
             return 0
+
+    @property
+    def distance_mi(self):
+        return self.distance_km / 1.60934
 
     @property
     def age(self):
@@ -103,6 +107,11 @@ class User(Model):
 
     def dislike(self):
         return self._session._api.dislike(self.id)
+
+
+class RateLimited(User):
+
+    pass
 
 
 class Match(Model):

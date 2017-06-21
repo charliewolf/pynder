@@ -3,7 +3,7 @@ from cached_property import cached_property
 
 import pynder.api as api
 from pynder.errors import InitializationError
-from pynder.models import Profile, User, Match, Friend
+from pynder.models import Profile, User, RateLimited, Match, Friend
 
 
 class Session(object):
@@ -28,6 +28,8 @@ class Session(object):
             for user in users:
                 if not user["_id"].startswith("tinder_rate_limited_id_"):
                     yield User(user, self)
+                else:
+                    yield RateLimited(user, self)
             if not len(users):
                 break
 

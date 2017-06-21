@@ -72,6 +72,12 @@ class Profile(Model):
         self.ping_time = data['ping_time']
         self.name = data['name']
         self.create_date = dateutil.parser.parse(self.create_date)
+
+        try:
+            self.pos = data['pos']
+        except KeyError:
+            self.pos = None
+
         self.banned = data['banned'] if "banned" in data else False
         self._data = data
 
