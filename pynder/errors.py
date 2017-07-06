@@ -16,4 +16,3 @@ class RecsError(PynderError):
 
 class RecsTimeout(RecsError):
     pass
-

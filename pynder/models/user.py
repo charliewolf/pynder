@@ -79,10 +79,6 @@ class User(Model):
             return -1
 
     @property
-    def distance_mi(self):
-        return self.distance_km / 1.60934
-
-    @property
     def age(self):
         today = datetime.date.today()
         return (today.year - self.birth_date.year -
