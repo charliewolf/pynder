@@ -1,4 +1,5 @@
 API_BASE = 'https://api.gotinder.com'
+CONTENT_BASE = 'https://content.gotinder.com'
 
 USER_AGENT = 'Tinder Android Version 6.4.1'
 
@@ -18,7 +19,7 @@ GENDER_MAP_REVERSE = {"male": 0, "female": 1}
 
 UPDATABLE_FIELDS = [
     'gender', 'age_filter_min', 'age_filter_max',
-    'distance_filter', 'age_filter_min', 'bio', 'interested_in'
+    'distance_filter', 'bio', 'interested_in'
 ]
 
 SIMPLE_FIELDS = {"name", "bio", "birth_date", "ping_time"}

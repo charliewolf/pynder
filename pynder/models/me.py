@@ -83,3 +83,9 @@ class Profile(Model):
 
     def __repr__(self):
         return self.name
+
+    def add_photo(self, fbid, x_dist=1, y_dist=1, x_offset=0, y_offset=0):
+        return self._api.add_profile_photo(fbid, x_dist, y_dist, x_offset, y_offset)
+
+    def delete_photo(self, photo_id):
+        return self._api.delete_profile_photo(photo_id)

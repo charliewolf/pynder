@@ -14,29 +14,29 @@ class TinderAPI(object):
         if XAuthToken is not None:
             self._session.headers.update({"X-Auth-Token": str(XAuthToken)})
 
-    def _url(self, path):
-        return constants.API_BASE + path
+    def _url(self, base, path):
+        return base + path
 
     def auth(self, facebook_id, facebook_token):
         data = {"facebook_id": str(facebook_id), "facebook_token": facebook_token}
         result = self._session.post(
-            self._url('/auth'), json=data, proxies=self._proxies).json()
+            self._url(constants.API_BASE, '/auth'), json=data, proxies=self._proxies).json()
         if 'token' not in result:
             raise errors.RequestError("Couldn't authenticate")
         self._token = result['token']
         self._session.headers.update({"X-Auth-Token": str(result['token'])})
         return result
 
-    def _request(self, method, url, data={}):
+    def _request(self, method, url, data={}, base=constants.API_BASE):
         if not hasattr(self, '_token'):
             raise errors.InitializationError
         result = self._session.request(method, self._url(
-            url), json=data, proxies=self._proxies)
+            base, url), json=data, proxies=self._proxies)
         while result.status_code == 429:
             blocker = threading.Event()
             blocker.wait(0.01)
             result = self._session.request(method, self._url(
-                url), data=data, proxies=self._proxies)
+                base, url), data=data, proxies=self._proxies)
         if result.status_code < 200 or result.status_code >= 300:
             raise errors.RequestError(result.status_code)
         if result.status_code == 201 or result.status_code == 204:
@@ -57,6 +57,20 @@ class TinderAPI(object):
 
     def meta(self):
         return self._get("/meta")
+
+    def add_profile_photo(self, fbid, x_dist, y_dist, x_offset, y_offset):
+        data = {
+                "transmit": "fb",
+                "assets": [{"id": str(fbid), "xdistance_percent": float(x_dist), "ydistance_percent": float(y_dist),
+                            "xoffset_percent": float(x_offset), "yoffset_percent": float(y_offset)}]
+               }
+
+        return self._request("post", "/media", data=data, base=constants.CONTENT_BASE)
+
+    def delete_profile_photo(self, photo_id):
+        data = {"assets": [photo_id]}
+
+        return self._request("delete", "/media", data=data, base=constants.CONTENT_BASE)
 
     def recs(self, limit=10):
         return self._post("/user/recs", data={"limit": limit})
