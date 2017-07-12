@@ -9,6 +9,11 @@ from pynder.models.message import Message
 
 
 class User(Model):
+    REPORT_OTHER                  = 0
+    REPORT_SPAM                   = 1
+    REPORT_INAPPROPRIATE_PHOTOS   = 4
+    REPORT_BAD_OFFLINE_BEHAVIOR   = 5
+    REPORT_INAPPROPRIATE_MESSAGES = 6
 
     def __init__(self, data, session):
         self._session = session
@@ -98,8 +103,8 @@ class User(Model):
     def __repr__(self):
         return repr(self.name)
 
-    def report(self, cause):
-        return self._session._api.report(self.id, cause)
+    def report(self, cause, text=""):
+        return self._session._api.report(self.id, cause, text)
 
     def get_photos(self, width=640):
         if int(width) not in VALID_PHOTO_SIZES:
@@ -143,6 +148,9 @@ class Match(Model):
 
     def message_gif(self, giphy_id):
         return self._session._api.message_gif(self.id, giphy_id)['_id']
+
+    def report(self, cause, text=""):
+        return self._session._api.report(self.id, cause, text)
 
     def delete(self):
         return self._session._api._delete('/user/matches/' + self.id)

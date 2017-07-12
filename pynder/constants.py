@@ -19,7 +19,8 @@ GENDER_MAP_REVERSE = {"male": 0, "female": 1}
 
 UPDATABLE_FIELDS = [
     'gender', 'age_filter_min', 'age_filter_max',
-    'distance_filter', 'bio', 'interested_in'
+    'distance_filter', 'bio', 'interested_in',
+    'discoverable'
 ]
 
 SIMPLE_FIELDS = {"name", "bio", "birth_date", "ping_time"}
