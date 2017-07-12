@@ -1,3 +1,4 @@
+import datetime
 import dateutil.parser
 
 from pynder.constants import UPDATABLE_FIELDS, GENDER_MAP_REVERSE, GENDER_MAP
