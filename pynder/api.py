@@ -104,8 +104,10 @@ class TinderAPI(object):
                           {"type": "gif", "gif_id": str(giphy_id)})
 
     def report(self, user, cause=constants.ReportCause.Other, text=""):
-        if not isinstance(cause, int) and not isinstance(cause, long):
-            cause = cause.value
+        try:
+            cause = int(cause)
+        except TypeError:
+            cause = int(cause.value)
 
         data = {"cause": cause}
 
