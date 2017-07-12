@@ -2,7 +2,7 @@ from time import time
 from cached_property import cached_property
 
 import pynder.api as api
-from pynder.errors import InitializationError
+from pynder.errors import InitializationError, RecsTimeout
 from pynder.models import Profile, User, RateLimited, Match, Friend
 
 
@@ -24,6 +24,10 @@ class Session(object):
     def nearby_users(self, limit=10):
         while True:
             response = self._api.recs(limit)
+
+            if 'message' in response and response['message'] == 'recs timeout':
+                raise RecsTimeout
+
             users = response['results'] if 'results' in response else []
             for user in users:
                 if not user["_id"].startswith("tinder_rate_limited_id_"):

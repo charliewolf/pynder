@@ -62,14 +62,21 @@ class User(Model):
 
     @property
     def distance_km(self):
-        if self._data.get("distance_mi", False) or self._data.get("distance_km", False):
-            return self._data.get('distance_km', self._data['distance_mi'])
+        if 'distance_km' in self._data:
+            return self._data['distance_km']
+        elif 'distance_mi' in self._data:
+            return self._data['distance_mi'] * 1.60934
         else:
-            return 0
+            return -1
 
     @property
     def distance_mi(self):
-        return self.distance_km / 1.60934
+        if 'distance_mi' in self._data:
+            return self._data['distance_mi']
+        elif 'distance_km' in self._data:
+            return self._data['distance_km'] / 1.60934
+        else:
+            return -1
 
     @property
     def age(self):
