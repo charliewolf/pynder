@@ -9,11 +9,6 @@ from pynder.models.message import Message
 
 
 class User(Model):
-    REPORT_OTHER = 0
-    REPORT_SPAM = 1
-    REPORT_INAPPROPRIATE_PHOTOS = 4
-    REPORT_BAD_OFFLINE_BEHAVIOR = 5
-    REPORT_INAPPROPRIATE_MESSAGES = 6
 
     def __init__(self, data, session):
         self._session = session

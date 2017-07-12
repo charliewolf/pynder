@@ -1,3 +1,5 @@
+from enum import Enum
+
 API_BASE = 'https://api.gotinder.com'
 CONTENT_BASE = 'https://content.gotinder.com'
 
@@ -26,3 +28,11 @@ UPDATABLE_FIELDS = [
 SIMPLE_FIELDS = {"name", "bio", "birth_date", "ping_time"}
 
 VALID_PHOTO_SIZES = {84, 172, 320, 640}
+
+
+class ReportCause(Enum):
+    Other = 0
+    Spam = 1
+    Inappropriate_Photos = 4
+    Bad_Offline_Behavior = 5
+    Inappropriate_Messages = 6
