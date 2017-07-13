@@ -103,8 +103,18 @@ class TinderAPI(object):
         return self._post("/user/matches/{}".format(user),
                           {"type": "gif", "gif_id": str(giphy_id)})
 
-    def report(self, user, cause=1):
-        return self._post("/report/" + user, {"cause": cause})
+    def report(self, user, cause=constants.ReportCause.Other, text=""):
+        try:
+            cause = int(cause)
+        except TypeError:
+            cause = int(cause.value)
+
+        data = {"cause": cause}
+
+        if text and constants.ReportCause(cause) == constants.ReportCause.Other:
+            data["text"] = text
+
+        return self._post("/report/" + user, data)
 
     def user_info(self, user_id):
         return self._get("/user/" + user_id)

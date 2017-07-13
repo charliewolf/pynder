@@ -1,3 +1,5 @@
+from enum import Enum
+
 API_BASE = 'https://api.gotinder.com'
 CONTENT_BASE = 'https://content.gotinder.com'
 
@@ -19,9 +21,18 @@ GENDER_MAP_REVERSE = {"male": 0, "female": 1}
 
 UPDATABLE_FIELDS = [
     'gender', 'age_filter_min', 'age_filter_max',
-    'distance_filter', 'bio', 'interested_in'
+    'distance_filter', 'bio', 'interested_in',
+    'discoverable'
 ]
 
 SIMPLE_FIELDS = {"name", "bio", "birth_date", "ping_time"}
 
 VALID_PHOTO_SIZES = {84, 172, 320, 640}
+
+
+class ReportCause(Enum):
+    Other = 0
+    Spam = 1
+    Inappropriate_Photos = 4
+    Bad_Offline_Behavior = 5
+    Inappropriate_Messages = 6

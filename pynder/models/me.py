@@ -1,3 +1,4 @@
+import datetime
 import dateutil.parser
 
 from pynder.constants import UPDATABLE_FIELDS, GENDER_MAP_REVERSE, GENDER_MAP
@@ -15,7 +16,10 @@ class ProfileDescriptor(object):
         if hasattr(self, 'value'):
             return self.value
         else:
-            return instance._data[self.id]
+            try:
+                return instance._data[self.id]
+            except KeyError:
+                return None
 
     def __set__(self, instance, value):
         profile = {}
@@ -71,6 +75,7 @@ class Profile(Model):
         self.photos = map(lambda photo: str(photo['url']), data['photos'])
         self.ping_time = data['ping_time']
         self.name = data['name']
+        self.birth_date = dateutil.parser.parse(data['birth_date'])
         self.create_date = dateutil.parser.parse(self.create_date)
 
         try:
@@ -83,6 +88,13 @@ class Profile(Model):
 
     def __repr__(self):
         return self.name
+
+    @property
+    def age(self):
+        today = datetime.date.today()
+        return (today.year - self.birth_date.year -
+                ((today.month, today.day) <
+                 (self.birth_date.month, self.birth_date.day)))
 
     def add_photo(self, fbid, x_dist=1, y_dist=1, x_offset=0, y_offset=0):
         return self._api.add_profile_photo(fbid, x_dist, y_dist, x_offset, y_offset)
