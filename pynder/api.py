@@ -6,11 +6,12 @@ import pynder.errors as errors
 
 class TinderAPI(object):
 
-    def __init__(self, XAuthToken=None, proxies=None):
+    def __init__(self, XAuthToken=None, proxies=None, timeout=constants.API_TIMEOUT):
         self._session = requests.Session()
         self._session.headers.update(constants.HEADERS)
         self._token = XAuthToken
         self._proxies = proxies
+        self._timeout = timeout
         if XAuthToken is not None:
             self._session.headers.update({"X-Auth-Token": str(XAuthToken)})
 
@@ -25,7 +26,7 @@ class TinderAPI(object):
     def auth(self, facebook_id, facebook_token):
         data = {"facebook_id": str(facebook_id), "facebook_token": facebook_token}
         result = self._session.post(
-            self._full_url('/auth'), json=data, proxies=self._proxies).json()
+            self._full_url('/auth'), json=data, proxies=self._proxies, timeout=self._timeout).json()
         if 'token' not in result:
             raise errors.RequestError("Couldn't authenticate")
         self._token = result['token']
@@ -36,12 +37,12 @@ class TinderAPI(object):
         if not hasattr(self, '_token'):
             raise errors.InitializationError
         result = self._session.request(method, self._full_url(
-            url), json=data, proxies=self._proxies)
+            url), json=data, proxies=self._proxies, timeout=self._timeout)
         while result.status_code == 429:
             blocker = threading.Event()
             blocker.wait(0.01)
             result = self._session.request(method, self._full_url(
-                url), data=data, proxies=self._proxies)
+                url), data=data, proxies=self._proxies, timeout=self._timeout)
         if result.status_code < 200 or result.status_code >= 300:
             raise errors.RequestError(result.status_code)
         if result.status_code == 201 or result.status_code == 204:
