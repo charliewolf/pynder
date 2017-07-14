@@ -15,6 +15,8 @@ HEADERS = {
     "Accept-Encoding": "gzip"
 }
 
+API_TIMEOUT = 10
+
 GENDER_MAP = ("male", "female")
 
 GENDER_MAP_REVERSE = {"male": 0, "female": 1}

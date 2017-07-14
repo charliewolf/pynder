@@ -1,6 +1,7 @@
 from time import time
 from cached_property import cached_property
 
+import pynder.constants as constants
 import pynder.api as api
 from pynder.errors import InitializationError, RecsTimeout
 from pynder.models import Profile, User, RateLimited, Match, Friend
@@ -8,11 +9,11 @@ from pynder.models import Profile, User, RateLimited, Match, Friend
 
 class Session(object):
 
-    def __init__(self, facebook_token=None, XAuthToken=None, proxies=None, facebook_id=None):
+    def __init__(self, facebook_token=None, XAuthToken=None, proxies=None, facebook_id=None, timeout=constants.API_TIMEOUT):
         if facebook_token is None and XAuthToken is None:
             raise InitializationError("Either XAuth or facebook token must be set")
 
-        self._api = api.TinderAPI(XAuthToken, proxies)
+        self._api = api.TinderAPI(XAuthToken, proxies, timeout)
         # perform authentication
         if XAuthToken is None:
             self._api.auth(facebook_id, facebook_token)
