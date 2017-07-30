@@ -127,6 +127,7 @@ class Match(Model):
         self._session = _session
         self.id = match["_id"]
         self.user, self.messages = None, []
+        self.last_activity_date = dateutil.parser.parse(match["last_activity_date"])
         self.match_date = datetime.datetime.strptime(
          match["created_date"], "%Y-%m-%dT%H:%M:%S.%fZ"
         )
