@@ -25,13 +25,13 @@ These have the following properties: ::
     user.bio # their biography
     user.name # their name
     user.photos # a list of photo URLs
-    user.thumbnail #a list of thumbnails of photo URLS
+    user.thumbnails #a list of thumbnails of photo URLS
     user.age # their age
     user.birth_date # their birth_date
     user.ping_time # last online
     user.distance_km # distane from you
     user.common_connections # friends in common
-    user.common_interests # likes in common - returns a list of {'name':NAME, 'id':ID}
+    user.common_likes # likes in common - returns a list of {'name':NAME, 'id':ID}
     user.get_photos(width=WIDTH) # a list of photo URLS with either of these widths ["84","172","320","640"]
     user.instagram_username # instagram username
     user.instagram_photos # a list of instagram photos with these fields for each photo: 'image','link','thumbnail'
