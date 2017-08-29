@@ -33,12 +33,12 @@ class User(Model):
     @property
     def instagram_username(self):
         if "instagram" in self._data:
-            return self._data['instagram']['username']
+            return self._data['instagram'].get('username')
 
     @property
     def instagram_photos(self):
         if "instagram" in self._data:
-            return [p for p in self._data['instagram']['photos']]
+            return [p for p in self._data['instagram'].get('photos', [])]
 
     @property
     def gender(self):
