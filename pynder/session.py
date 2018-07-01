@@ -1,5 +1,4 @@
 from time import time
-from cached_property import cached_property
 
 import pynder.api as api
 from pynder.errors import InitializationError, RecsTimeout
@@ -18,7 +17,7 @@ class Session(object):
         if XAuthToken is None:
             self._api.auth(facebook_id, facebook_token)
 
-    @cached_property
+    @property
     def profile(self):
         return Profile(self._api.profile(), self._api)
 
