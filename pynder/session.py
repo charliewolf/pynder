@@ -22,6 +22,10 @@ class Session(object):
     def profile(self):
         return Profile(self._api.profile(), self._api)
 
+    def user_from_id(self, id):
+        data = self._api.user_info(id)
+        return User(data['results'], self)
+
     def nearby_users(self, limit=10):
         while True:
             response = self._api.recs(limit)
