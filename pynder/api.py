@@ -23,7 +23,8 @@ class TinderAPI(object):
             return constants.API_BASE + url
 
     def auth(self, facebook_id, facebook_token):
-        data = {"facebook_id": str(facebook_id), "facebook_token": facebook_token}
+        data = {"facebook_id": str(facebook_id),
+                "facebook_token": facebook_token}
         result = self._session.post(
             self._full_url('/auth'), json=data, proxies=self._proxies).json()
         if 'token' not in result:
@@ -65,10 +66,10 @@ class TinderAPI(object):
 
     def add_profile_photo(self, fbid, x_dist, y_dist, x_offset, y_offset):
         data = {
-                "transmit": "fb",
-                "assets": [{"id": str(fbid), "xdistance_percent": float(x_dist), "ydistance_percent": float(y_dist),
-                            "xoffset_percent": float(x_offset), "yoffset_percent": float(y_offset)}]
-               }
+            "transmit": "fb",
+            "assets": [{"id": str(fbid), "xdistance_percent": float(x_dist), "ydistance_percent": float(y_dist),
+                        "xoffset_percent": float(x_offset), "yoffset_percent": float(y_offset)}]
+        }
 
         return self._request("post", constants.CONTENT_BASE + "/media", data=data)
 
