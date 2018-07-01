@@ -1,13 +1,13 @@
 import itertools
 import datetime
 import dateutil.parser
-import six
+from future.utils import python_2_unicode_compatible
 
 from pynder.models.base import Model
 from pynder.constants import GENDER_MAP, SIMPLE_FIELDS, VALID_PHOTO_SIZES
 from pynder.models.message import Message
 
-
+@python_2_unicode_compatible
 class User(Model):
 
     def __init__(self, data, session):
@@ -97,11 +97,8 @@ class User(Model):
     def share_link(self):
         return self._session._api.share(self.id)['link']
 
-    def __unicode__(self):
-        return u"{n} ({a})".format(n=self.name, a=self.age)
-
     def __str__(self):
-        return six.text_type(self).encode('utf-8')
+        return u"{n} ({a})".format(n=self.name, a=self.age)
 
     def __repr__(self):
         return repr(self.name)
