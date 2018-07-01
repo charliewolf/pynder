@@ -23,10 +23,14 @@ class User(Model):
         self.schools = {}
         self.jobs = []
         try:
-            self.schools.update({school["id"]: school["name"] for school in data['schools'] if 'id' in school and 'name' in school})
-            self.jobs.extend(["%s @ %s" % (job["title"]["name"], job["company"]["name"]) for job in data['jobs'] if 'title' in job and 'company' in job])
-            self.jobs.extend(["%s" % (job["company"]["name"],) for job in data['jobs'] if 'title' not in job and 'company' in job])
-            self.jobs.extend(["%s" % (job["title"]["name"],) for job in data['jobs'] if 'title' in job and 'company' not in job])
+            self.schools.update({school["id"]: school["name"]
+                                 for school in data['schools'] if 'id' in school and 'name' in school})
+            self.jobs.extend(["%s @ %s" % (job["title"]["name"], job["company"]["name"])
+                              for job in data['jobs'] if 'title' in job and 'company' in job])
+            self.jobs.extend(["%s" % (job["company"]["name"],)
+                              for job in data['jobs'] if 'title' not in job and 'company' in job])
+            self.jobs.extend(["%s" % (job["title"]["name"],)
+                              for job in data['jobs'] if 'title' in job and 'company' not in job])
         except (ValueError, KeyError):
             pass
 
@@ -128,7 +132,7 @@ class Match(Model):
         self.id = match["_id"]
         self.user, self.messages = None, []
         self.match_date = datetime.datetime.strptime(
-         match["created_date"], "%Y-%m-%dT%H:%M:%S.%fZ"
+            match["created_date"], "%Y-%m-%dT%H:%M:%S.%fZ"
         )
         if 'person' in match:
             user_data = _session._api.user_info(
