@@ -91,7 +91,10 @@ class TinderAPI(object):
         return self._post("/profile", profile)
 
     def like(self, user):
-        return self._get("/like/{}".format(user))
+        ans = self._get("/like/{}".format(user))
+        if 'rate_limited_until' in ans:
+            raise errors.RequestError('Like limit exceeded')
+        return ans
 
     def dislike(self, user):
         return self._get("/pass/{}".format(user))
