@@ -7,6 +7,7 @@ from pynder.models.base import Model
 from pynder.constants import GENDER_MAP, SIMPLE_FIELDS, VALID_PHOTO_SIZES
 from pynder.models.message import Message
 
+
 @python_2_unicode_compatible
 class User(Model):
 
@@ -101,7 +102,10 @@ class User(Model):
         return u"{n} ({a})".format(n=self.name, a=self.age)
 
     def __repr__(self):
-        return repr(self.name)
+        fmt = "User(name={n!r}, age={a}, id={i!r})"
+        return fmt.format(n=self.name,
+                          a=self.age,
+                          i=self.id)
 
     def report(self, cause, text=""):
         return self._session._api.report(self.id, cause, text)
