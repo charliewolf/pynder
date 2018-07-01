@@ -10,7 +10,8 @@ class Session(object):
 
     def __init__(self, facebook_token=None, XAuthToken=None, proxies=None, facebook_id=None):
         if facebook_token is None and XAuthToken is None:
-            raise InitializationError("Either XAuth or facebook token must be set")
+            raise InitializationError(
+                "Either XAuth or facebook token must be set")
 
         self._api = api.TinderAPI(XAuthToken, proxies)
         # perform authentication
@@ -74,7 +75,8 @@ class Session(object):
         Return the number of seconds before being allowed to issue likes
         """
         now = int(time())
-        limited_until = self._api.meta()['rating'].get('rate_limited_until', now)
+        limited_until = self._api.meta()['rating'].get(
+            'rate_limited_until', now)
         return limited_until / 1000 - now
 
     @property
