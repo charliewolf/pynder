@@ -34,6 +34,10 @@ class User(Model):
         except (ValueError, KeyError):
             pass
 
+    def reload(self):
+        data = self._session._api.user_info(self.id)
+        return User(data['results'], self._session)
+
     @property
     def instagram_username(self):
         if "instagram" in self._data:
