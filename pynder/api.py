@@ -8,7 +8,6 @@ class TinderAPI(object):
 
     def __init__(self, XAuthToken=None, proxies=None):
         self._session = requests.Session()
-        self._session.headers.update(constants.HEADERS)
         self._token = XAuthToken
         self._proxies = proxies
         if XAuthToken is not None:
@@ -22,21 +21,21 @@ class TinderAPI(object):
         else:
             return constants.API_BASE + url
 
-    def auth(self, facebook_id, facebook_token):
-        data = {"facebook_id": str(facebook_id), "facebook_token": facebook_token}
-        result = self._session.post(
-            self._full_url('/auth'), json=data, proxies=self._proxies).json()
-        if 'token' not in result:
+    def auth(self, facebook_token):
+        data = {"token": facebook_token}
+        result = requests.post(
+            self._full_url('/v2/auth/login/facebook'), data=data, proxies=self._proxies).json()['data']
+        if 'api_token' not in result:
             raise errors.RequestError("Couldn't authenticate")
-        self._token = result['token']
-        self._session.headers.update({"X-Auth-Token": str(result['token'])})
+        self._token = result['api_token']
+        self._session.headers.update({"X-Auth-Token": str(result['api_token'])})
         return result
 
     def _request(self, method, url, data={}):
         if not hasattr(self, '_token'):
             raise errors.InitializationError
         result = self._session.request(method, self._full_url(
-            url), json=data, proxies=self._proxies)
+            url), data=data, proxies=self._proxies)
         while result.status_code == 429:
             blocker = threading.Event()
             blocker.wait(0.01)

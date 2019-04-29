@@ -3,17 +3,18 @@ from enum import Enum
 API_BASE = 'https://api.gotinder.com'
 CONTENT_BASE = 'https://content.gotinder.com'
 
-USER_AGENT = 'Tinder Android Version 6.4.1'
+# No longer needed! 2019-04-29 ??????
+# USER_AGENT = 'Tinder Android Version 6.4.1'
 
-HEADERS = {
-    "Content-Type": "application/json; charset=utf-8",
-    "User-Agent": USER_AGENT,
-    "Host": API_BASE,
-    "os_version": "1935",
-    "app-version": "371",
-    "platform": "android",  # XXX with ios we run in an error
-    "Accept-Encoding": "gzip"
-}
+# HEADERS = {
+#     "Content-Type": "application/json; charset=utf-8",
+#     "User-Agent": USER_AGENT,
+#     "Host": API_BASE,
+#     "os_version": "1935",
+#     "app-version": "371",
+#     "platform": "android",  # XXX with ios we run in an error
+#     "Accept-Encoding": "gzip"
+# }
 
 GENDER_MAP = ("male", "female")
 

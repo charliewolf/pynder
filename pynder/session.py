@@ -15,7 +15,7 @@ class Session(object):
         self._api = api.TinderAPI(XAuthToken, proxies)
         # perform authentication
         if XAuthToken is None:
-            self._api.auth(facebook_id, facebook_token)
+            self._api.auth(facebook_token)
 
     @cached_property
     def profile(self):
