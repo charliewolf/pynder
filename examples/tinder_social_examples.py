@@ -1,7 +1,7 @@
 import pynder
 
 FBID = "YOUR_FB_ID"
-FBTOKEN= "YOUR_FB_TOKEN"
+FBTOKEN = "YOUR_FB_TOKEN"
 
 session = pynder.Session(facebook_id=FBID, facebook_token=FBTOKEN)
 friends = session.get_fb_friends()
