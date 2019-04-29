@@ -10,6 +10,7 @@ class TinderAPI(object):
         self._session = requests.Session()
         self._token = XAuthToken
         self._proxies = proxies
+        self._session.headers.update(constants.HEADERS)
         if XAuthToken is not None:
             self._session.headers.update({"X-Auth-Token": str(XAuthToken)})
 
@@ -23,8 +24,8 @@ class TinderAPI(object):
 
     def auth(self, facebook_token):
         data = {"token": facebook_token}
-        result = requests.post(
-            self._full_url('/v2/auth/login/facebook'), data=data, proxies=self._proxies).json()['data']
+        result = self._session.post(
+            self._full_url('/v2/auth/login/facebook'), json=data, proxies=self._proxies).json()['data']
         if 'api_token' not in result:
             raise errors.RequestError("Couldn't authenticate")
         self._token = result['api_token']
