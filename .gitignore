@@ -4,4 +4,3 @@ dist/
 *.egg-info
 pynder/tests/test.ini
 .coverage
-pynder/tests/test.ini
