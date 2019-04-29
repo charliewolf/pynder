@@ -24,7 +24,7 @@ class TinderAPI(object):
     def auth(self, facebook_token):
         data = {"token": facebook_token}
         result = requests.post(
-            self._full_url('/v2/auth/login/facebook'), json=data, proxies=self._proxies).json()['data']
+            self._full_url('/v2/auth/login/facebook'), data=data, proxies=self._proxies).json()['data']
         if 'api_token' not in result:
             raise errors.RequestError("Couldn't authenticate")
         self._token = result['api_token']
@@ -35,7 +35,7 @@ class TinderAPI(object):
         if not hasattr(self, '_token'):
             raise errors.InitializationError
         result = self._session.request(method, self._full_url(
-            url), json=data, proxies=self._proxies)
+            url), data=data, proxies=self._proxies)
         while result.status_code == 429:
             blocker = threading.Event()
             blocker.wait(0.01)
