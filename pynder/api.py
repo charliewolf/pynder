@@ -25,13 +25,9 @@ class TinderAPI(object):
 
     def auth(self, facebook_id, facebook_token):
         data = {"token": facebook_token}
-        # result = self._session.post(
-        #     self._full_url('/v2/auth/login/facebook'), json=data, proxies=self._proxies)
         result = requests.post(
             self._full_url('/v2/auth/login/facebook'), json=data, proxies=self._proxies, headers=constants.HEADERS)
-        print(result)
         if result.status_code == 200:
-            print(result.json())
             json_result = result.json()
             if 'api_token' not in json_result['data']:
                 raise errors.RequestError("Couldn't authenticate")
