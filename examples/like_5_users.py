@@ -1,3 +1,4 @@
+from __future__ import print_function
 import itertools
 import pynder
 
@@ -7,4 +8,4 @@ FBID = "YOUR_FB_ID"
 session = pynder.Session(facebook_id=FBID, facebook_token=FBTOKEN)
 users = session.nearby_users()
 for user in itertools.islice(users, 5):
-    print user.like()
+    print(user.like())

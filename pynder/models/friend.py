@@ -2,7 +2,7 @@ import re
 from pynder.models.user import User
 from pynder.models.base import Model
 
-facebook_id_pattern = re.compile(u'\.com/(\d+?)/')
+facebook_id_pattern = re.compile(u'\.com/(\d+?)/')  # noqa W605
 
 
 class Friend(Model):

@@ -18,14 +18,20 @@ class TestSession(unittest.TestCase):
         pass
 
     @my_vcr.use_cassette(filter_post_data_parameters=["facebook_id",
-                                                      "facebook_token"])
+                                                      "facebook_token",
+                                                      "api_token",
+                                                      "token",
+                                                      "X-Auth-Token"])
     def test_login(self):
         auth = read_test_ini()
         session = pynder.Session(facebook_id=auth["facebook_id"], facebook_token=auth["facebook_token"])
         self.assertEqual(session.profile.gender, "male")
 
     @my_vcr.use_cassette(filter_post_data_parameters=["facebook_id",
-                                                      "facebook_token"])
+                                                      "facebook_token",
+                                                      "api_token",
+                                                      "token",
+                                                      "X-Auth-Token"])
     def test_nearby_users_empty(self):
         auth = read_test_ini()
         session = pynder.Session(facebook_token=auth["facebook_token"], facebook_id=auth["facebook_id"])

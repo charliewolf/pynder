@@ -8,11 +8,12 @@ class TinderAPI(object):
 
     def __init__(self, XAuthToken=None, proxies=None):
         self._session = requests.Session()
-        self._session.headers.update(constants.HEADERS)
+        self._headers = constants.HEADERS
         self._token = XAuthToken
         self._proxies = proxies
         if XAuthToken is not None:
-            self._session.headers.update({"X-Auth-Token": str(XAuthToken)})
+            self._headers["X-Auth-Token"] = str(XAuthToken)
+            self._session.headers.update(self._headers)
 
     def _full_url(self, url):
         _url = url.lower()
@@ -23,16 +24,23 @@ class TinderAPI(object):
             return constants.API_BASE + url
 
     def auth(self, facebook_id, facebook_token):
-        data = {"facebook_id": str(facebook_id), "facebook_token": facebook_token}
-        result = self._session.post(
-            self._full_url('/auth'), json=data, proxies=self._proxies).json()
-        if 'token' not in result:
-            raise errors.RequestError("Couldn't authenticate")
-        self._token = result['token']
-        self._session.headers.update({"X-Auth-Token": str(result['token'])})
-        return result
+        data = {"token": facebook_token}
+        result = requests.post(
+            self._full_url('/v2/auth/login/facebook'), json=data, proxies=self._proxies, headers=constants.HEADERS)
+        if result.status_code == 200:
+            json_result = result.json()
+            if 'api_token' not in json_result['data']:
+                raise errors.RequestError("Couldn't authenticate")
+            else:
+                self._token = json_result['data']['api_token']
+                self._headers["X-Auth-Token"] = str(self._token)
+                self._session.headers.update(self._headers)
+                return json_result['data']
+        else:
+            err = "Couldn't authenticate request status code: " + str(result.status_code)
+            raise errors.RequestError(err)
 
-    def _request(self, method, url, data={}):
+    def _request(self, method, url, data=None):
         if not hasattr(self, '_token'):
             raise errors.InitializationError
         result = self._session.request(method, self._full_url(
