@@ -1,3 +1,4 @@
+from __future__ import print_function
 import datetime
 from argparse import ArgumentParser
 from codecs import open as copen
@@ -11,7 +12,7 @@ FB_TOKEN = FILL_THIS_IN
 
 
 def select_interactively(matches, name):
-    print "Found {n} matches with name: '{n}'".format(n=name)
+    print("Found {n} matches with name: '{n}'".format(n=name))
     N = len(matches)
     if N == 0:
         raise SystemExit("Please try with a different name")
@@ -20,12 +21,12 @@ def select_interactively(matches, name):
     selected = None
     while selected not in range(N):
         for i, m in enumerate(matches):
-            print "[{i}]\t{n}\t(ID #{id})".format(i=i, n=m.user.name, id=m.user.id)
-        print "Select one of the above listed matches"
+            print("[{i}]\t{n}\t(ID #{id})".format(i=i, n=m.user.name, id=m.user.id))
+        print("Select one of the above listed matches")
         try:
             return matches[int(raw_input("> "))]
         except Exception as e:
-            print e
+            print(e)
 
 
 if __name__ == "__main__":
@@ -45,4 +46,4 @@ if __name__ == "__main__":
         for m in match.messages:
             w.writerow([m._data['sent_date'], m.sender, m.body])
 
-    print "Wrote:", output_filename
+    print("Wrote:", output_filename)
