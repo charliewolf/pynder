@@ -1,5 +1,4 @@
 from time import time
-from cached_property import cached_property
 
 import pynder.api as api
 from pynder.errors import InitializationError, RecsTimeout
@@ -10,16 +9,21 @@ class Session(object):
 
     def __init__(self, facebook_token=None, XAuthToken=None, proxies=None, facebook_id=None):
         if facebook_token is None and XAuthToken is None:
-            raise InitializationError("Either XAuth or facebook token must be set")
+            raise InitializationError(
+                "Either XAuth or facebook token must be set")
 
         self._api = api.TinderAPI(XAuthToken, proxies)
         # perform authentication
         if XAuthToken is None:
             self._api.auth(facebook_id, facebook_token)
 
-    @cached_property
+    @property
     def profile(self):
         return Profile(self._api.profile(), self._api)
+
+    def user_from_id(self, id):
+        data = self._api.user_info(id)
+        return User(data['results'], self)
 
     def nearby_users(self, limit=10):
         while True:
@@ -74,7 +78,8 @@ class Session(object):
         Return the number of seconds before being allowed to issue likes
         """
         now = int(time())
-        limited_until = self._api.meta()['rating'].get('rate_limited_until', now)
+        limited_until = self._api.meta()['rating'].get(
+            'rate_limited_until', now)
         return limited_until / 1000 - now
 
     @property
